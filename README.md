@@ -6,8 +6,11 @@
 
 - 可橫向滑動的 Day 1–Day 5 日期分頁。
 - 每日時間軸、用餐、住宿與團體交通提示。
-- Naver Map 互動地圖、依序編號的站點與外部導航連結。
+- Naver Map 互動地圖、依序編號的站點，以及 Naver Map／Google Maps 雙導航連結。
 - Day 2、Day 3 自理午晚餐的水原餐廳推薦。
+- 三支指定時間開始播放的競賽參考影片。
+- 六個水原代表美食的獨立地圖、推薦餐點與研究來源。
+- 依藥妝、彩妝、服飾、零食與生活紀念品分類的 2026 購物清單；勾選進度會保存在裝置中。
 - 未設定地圖 Client ID 時仍可使用的路線摘要。
 
 ## 本機預覽
@@ -31,7 +34,7 @@ python3 -m http.server 4173
 window.NAVER_MAP_CLIENT_ID = "你的_ncpKeyId";
 ```
 
-Client ID 會出現在前端原始碼，這是 JavaScript 地圖的正常用法；安全性依靠 Naver Cloud Console 的網域白名單。未填入時，網站會顯示輕量路線圖與可用的 Naver Map 外連。
+Client ID 會出現在前端原始碼，這是 JavaScript 地圖的正常用法；安全性依靠 Naver Cloud Console 的網域白名單。未填入時，網站會顯示輕量路線圖，並保留 Naver Map 與 Google Maps 外連。
 
 ## 部署 GitHub Pages
 

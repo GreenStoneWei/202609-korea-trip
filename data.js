@@ -1,4 +1,5 @@
 const naverSearch = (query) => `https://map.naver.com/p/search/${encodeURIComponent(query)}`;
+const googleSearch = (query) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 
 export const tripMeta = {
   title: "韓國五日遊",
@@ -128,4 +129,120 @@ export const recommendations = {
   },
 };
 
-export { naverSearch };
+export const competitionVideos = [
+  { apparatus: "地板", level: "LEVEL 6", videoId: "tInZgppayUw", start: 286, startLabel: "04:46", accent: "coral" },
+  { apparatus: "單槓", level: "LEVEL 6", videoId: "yO_a5AxhztI", start: 114, startLabel: "01:54", accent: "green" },
+  { apparatus: "跳馬", level: "LEVEL 7", videoId: "JdTx52W1Gn8", start: 72, startLabel: "01:12", accent: "sand" },
+];
+
+export const suwonFood = [
+  {
+    name: "佳甫亭", korean: "가보정", category: "水原王排骨", price: "高價位・適合聚餐",
+    dishes: ["生牛排骨", "調味牛排骨", "大醬湯"],
+    intro: "韓國觀光公社列出的水原三大排骨名店之一，規模大、配菜完整，是第一次吃水原王排骨的穩妥選擇。",
+    tip: "熱門晚餐時段先訂位；想控制預算可查看平日午間套餐。",
+    address: "경기도 수원시 팔달구 장다리로 282", query: "수원 가보정",
+    lat: 37.2748, lng: 127.0316,
+    source: "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=188614",
+  },
+  {
+    name: "本水原排骨", korean: "본수원갈비", category: "50 年老店", price: "高價位・多人分享",
+    dishes: ["水原王排骨", "調味排骨", "排骨湯"],
+    intro: "超過 50 年歷史，同樣名列水原三大排骨店；可比較原味生排骨與甜鹹調味排骨。",
+    tip: "排骨份量適合多人分享；平日午餐可留意限定排骨湯。",
+    address: "경기도 수원시 팔달구 중부대로223번길 41", query: "본수원갈비",
+    lat: 37.2804, lng: 127.0433,
+    source: "https://english.visitkorea.or.kr/svc/whereToGo/locIntrdn/rgnContentsView.do?vcontsId=86767",
+  },
+  {
+    name: "柳池會館", korean: "유치회관", category: "在地湯飯", price: "平價・快速用餐",
+    dishes: ["牛肉醒酒湯", "白切牛肉", "蘿蔔泡菜"],
+    intro: "水原代表性的清爽牛肉醒酒湯老店，湯裡有牛肉與白菜，血腸可依喜好另外加入。",
+    tip: "適合比賽日補充體力；不吃牛血可在點餐時先說明。",
+    address: "경기도 수원시 팔달구 효원로292번길 67", query: "유치회관 본점",
+    lat: 37.2622, lng: 127.0346,
+    source: "https://ggc.ggcf.kr/en/p/5a6a0325afeca47471384c19",
+  },
+  {
+    name: "真味炸雞", korean: "진미통닭", category: "水原炸雞街", price: "中價位・適合分享",
+    dishes: ["原味炸雞", "甜辣炸雞", "半半炸雞"],
+    intro: "位於水原炸雞街的代表店家，以大鍋現炸、外脆內嫩的老式全雞聞名，適合賽後多人分享。",
+    tip: "點半半可一次比較原味與甜辣；週末用餐尖峰可能需要候位。",
+    address: "경기도 수원시 팔달구 정조로800번길 21", query: "수원 진미통닭",
+    lat: 37.2794, lng: 127.0182,
+    source: "https://english.visitkorea.or.kr/svc/contents/contentsView.do?menuSn=351&vcontsId=176166",
+  },
+  {
+    name: "地洞市場血腸城", korean: "지동시장 순대타운", category: "傳統市場", price: "平價・在地小吃",
+    dishes: ["綜合血腸", "炒血腸", "豬雜湯"],
+    intro: "地洞市場美食巷聚集約 20 間血腸專門店，可一次體驗水原庶民市場料理與熱鬧氣氛。",
+    tip: "內臟接受度因人而異；第一次可點小份綜合血腸多人分食。",
+    address: "경기도 수원시 팔달구 팔달문로 19", query: "지동시장 순대타운",
+    lat: 37.2777, lng: 127.0197,
+    source: "https://www.suwon.go.kr/webcontent/ckeditor/2025/11/10/b36115dd-5223-49f8-80af-cf2906c6055a.pdf",
+  },
+  {
+    name: "保榮餃子", korean: "보영만두 북문본점", category: "餃子與辣拌麵", price: "平價・快速用餐",
+    dishes: ["蒸餃", "炸餃", "辣拌麵"],
+    intro: "水原北門一帶廣為人知的餃子店，現做餃子配酸辣爽口的拌麵，是比賽空檔容易安排的一餐。",
+    tip: "辣拌麵有辣度；可搭配蒸餃平衡味道，並先用 Naver Map 確認最近分店。",
+    address: "경기도 수원시 장안구 팔달로 271", query: "보영만두 북문본점",
+    lat: 37.2917, lng: 127.0122,
+    source: "https://www.diningcode.com/profile.php?rid=qiiPwhoYeuEZ",
+  },
+];
+
+export const shoppingCategories = [
+  {
+    id: "beauty", icon: "✦", name: "藥妝保養", note: "Olive Young／大創",
+    source: "https://www.seoultourism.org/k-beauty-shopping-guide-seoul/",
+    items: [
+      { name: "Round Lab 白樺樹防曬", detail: "輕盈日常防曬；購買前依膚質試用。", priority: "人氣防曬" },
+      { name: "Torriden Dive-In 精華", detail: "以補水為主的玻尿酸精華。", priority: "乾燥肌" },
+      { name: "Mediheal／Biodance 面膜", detail: "單片好分送，留意 1+1 或多入組。", priority: "伴手禮" },
+      { name: "VT Reedle Shot 100", detail: "有刺激感的入門版本，敏感肌先局部測試。", priority: "先試再買" },
+    ],
+  },
+  {
+    id: "makeup", icon: "●", name: "彩妝美妝", note: "先試色再結帳",
+    source: "https://www.seoultourism.org/k-beauty-shopping-guide-seoul/",
+    items: [
+      { name: "Rom&nd／Peripera 唇彩", detail: "體積小、色號多，適合自用或送禮。", priority: "小禮物" },
+      { name: "HERA／CLIO 氣墊粉餅", detail: "現場確認色階並一起購買補充蕊。", priority: "試色必須" },
+      { name: "CLIO／Etude 眉筆", detail: "韓系自然眉色，確認髮色後挑選。", priority: "實用" },
+      { name: "Laneige 唇膜", detail: "經典保濕小物，機場免稅也常有組合。", priority: "經典款" },
+    ],
+  },
+  {
+    id: "fashion", icon: "◇", name: "服飾配件", note: "Musinsa／聖水／弘大",
+    source: "https://about.musinsa.com/newsroom/k-fashion-edit",
+    items: [
+      { name: "MUSINSA STANDARD 基本款", detail: "男女、童裝與運動線齊全，實穿且容易搭配。", priority: "基本款" },
+      { name: "韓國設計師／街頭品牌", detail: "Musinsa Store 可一次看多個本地品牌。", priority: "K-Fashion" },
+      { name: "帽子、襪子與帆布袋", detail: "體積小、價位相對親切，適合伴手禮。", priority: "好攜帶" },
+      { name: "富平地下街服飾", detail: "Day 5 行程內可逛；先比價、確認尺寸與退換規則。", priority: "行程順買" },
+    ],
+  },
+  {
+    id: "snacks", icon: "□", name: "零食伴手禮", note: "超市／便利商店",
+    source: "https://www.seoultourism.org/what-to-buy-in-korea/",
+    items: [
+      { name: "HBAF 杏仁", detail: "蜂蜜奶油等多口味，小包裝容易分送。", priority: "熱門" },
+      { name: "韓國海苔／海苔脆片", detail: "輕巧好帶，注意包裝避免行李擠壓。", priority: "家庭禮" },
+      { name: "限定口味泡麵與零食", detail: "超市通常比觀光區選擇多；留意肉類成分入境限制。", priority: "限定款" },
+      { name: "柚子茶／傳統茶包", detail: "玻璃罐較重，優先挑補充包或茶包。", priority: "長輩禮" },
+    ],
+  },
+  {
+    id: "goods", icon: "+", name: "生活與紀念品", note: "大創／仁寺洞／官方店",
+    source: "https://english.visitkorea.or.kr/svc/contents/contentsView.do?dataSetId=120&menuSn=929&vcontsId=251858",
+    items: [
+      { name: "Daiso 收納與旅行小物", detail: "收納袋、旅行分裝瓶、文具實用且平價。", priority: "高 CP" },
+      { name: "韓紙文具／傳統紋樣小物", detail: "書籤、卡片、杯墊適合有韓國特色的禮物。", priority: "文化紀念" },
+      { name: "正版 K-pop 專輯與周邊", detail: "優先官方商店或大型唱片行，避免非官方商品。", priority: "認明正版" },
+      { name: "水原限定點心", detail: "可留意水原藥果、華城造型餅乾等地方紀念品。", priority: "水原限定" },
+    ],
+  },
+];
+
+export { googleSearch, naverSearch };

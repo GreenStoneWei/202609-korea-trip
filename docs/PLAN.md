@@ -69,6 +69,13 @@
 - 需要在 Naver Cloud Platform 建立 Maps Application、啟用 Dynamic Map，並將 GitHub Pages 網址加入允許的 Web Service URL。
 - 目前載入參數是 `ncpKeyId`，不是舊版的 `ncpClientId`。
 - Client ID 為瀏覽器端識別值，會公開在頁面中；必須用允許來源網域限制濫用。
-- 無 Client ID 或 API 載入失敗時，網站會顯示站點順序圖，所有 Naver Map 搜尋連結仍可使用。
+- 無 Client ID 或 API 載入失敗時，網站會顯示站點順序圖；每一個 Naver Map 搜尋位置都同時提供 Google Maps 備援連結。
 
 參考：[Naver Maps API Getting Started](https://navermaps.github.io/maps.js.en/docs/tutorial-2-Getting-Started.html)、[取得 Client ID](https://navermaps.github.io/maps.js.en/docs/tutorial-1-Getting-Client-ID.html)、[Naver Map URL Scheme](https://guide.ncloud-docs.com/docs/en/maps-url-scheme)、[HOMES Stay Suwon 官方頁](https://homes.global/en/branches/suwon)、[韓國觀光公社：佳甫亭](https://english.visitkorea.or.kr/svc/whereToGo/locIntrdn/rgnContentsView.do?vcontsId=188614)、[韓國觀光公社：水原炸雞街](https://english.visitkorea.or.kr/svc/contents/contentsView.do?menuSn=351&vcontsId=176166)。
+
+## 第二階段追加內容
+
+- 比賽影片：地板 Level 6（04:46）、單槓 Level 6（01:54）、跳馬 Level 7（01:12），YouTube 內嵌與外連皆從指定秒數開始。
+- 水原美食：佳甫亭、本水原排骨、柳池會館、真味炸雞、地洞市場血腸城、保榮餃子；互動地圖與無 API key 替代介面均提供 Naver Map／Google Maps 雙外連。
+- 2026 購物清單：藥妝保養、彩妝美妝、服飾配件、零食伴手禮、生活與紀念品五類；各分類附來源並在瀏覽器保存勾選狀態。
+- 美食研究優先採用韓國觀光公社、水原市官方旅遊資料與店家官方資訊；購物研究採近期 2026 指南、韓國觀光公社及 MUSINSA 官方資料。
