@@ -166,39 +166,73 @@ function renderDay(day) {
   initializeMap(day);
 }
 
-function loadNaverMaps(clientId) {
-  if (window.naver?.maps) return Promise.resolve();
-  if (!clientId) return Promise.reject(new Error("NO_CLIENT_ID"));
-  if (window.__naverMapsPromise) return window.__naverMapsPromise;
-  window.__naverMapsPromise = new Promise((resolve, reject) => {
+function loadKakaoMaps(appKey) {
+  if (window.kakao?.maps?.Map) return Promise.resolve();
+  if (!appKey) return Promise.reject(new Error("NO_APP_KEY"));
+  if (window.__kakaoMapsPromise) return window.__kakaoMapsPromise;
+  window.__kakaoMapsPromise = new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${encodeURIComponent(clientId)}`;
-    script.onload = resolve;
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(appKey)}&autoload=false`;
+    script.onload = () => {
+      if (!window.kakao?.maps?.load) {
+        reject(new Error("LOAD_FAILED"));
+        return;
+      }
+      window.kakao.maps.load(resolve);
+    };
     script.onerror = () => reject(new Error("LOAD_FAILED"));
     document.head.appendChild(script);
   });
-  return window.__naverMapsPromise;
+  return window.__kakaoMapsPromise;
+}
+
+function createNumberedMarker(map, position, number, className = "", onClick) {
+  const marker = document.createElement("button");
+  marker.type = "button";
+  marker.className = `map-marker ${className}`.trim();
+  marker.textContent = number;
+  marker.setAttribute("aria-label", `地圖站點 ${number}`);
+  if (onClick) marker.addEventListener("click", event => {
+    event.stopPropagation();
+    onClick(event);
+  });
+  const overlay = new window.kakao.maps.CustomOverlay({
+    map, position, content: marker, xAnchor: 0.5, yAnchor: 0.5, zIndex: 2,
+  });
+  return overlay;
 }
 
 async function initializeMap(day) {
   const canvas = document.querySelector("#map");
   const located = day.places.filter(place => Number.isFinite(place.lat));
   try {
-    await loadNaverMaps(window.NAVER_MAP_CLIENT_ID);
+    await loadKakaoMaps(window.KAKAO_MAP_JAVASCRIPT_KEY);
     if (!document.body.contains(canvas) || activeDay !== day.id) return;
-    mapInstance = new naver.maps.Map(canvas, { center: new naver.maps.LatLng(located[0].lat, located[0].lng), zoom: 10, zoomControl: true, zoomControlOptions: { position: naver.maps.Position.TOP_RIGHT } });
-    markers = located.map((place, index) => new naver.maps.Marker({
-      position: new naver.maps.LatLng(place.lat, place.lng), map: mapInstance,
-      title: place.name,
-      icon: { content: `<div class="naver-marker">${index + 1}</div>`, anchor: new naver.maps.Point(17, 17) },
-    }));
+    const { maps } = window.kakao;
+    mapInstance = new maps.Map(canvas, {
+      center: new maps.LatLng(located[0].lat, located[0].lng), level: 8,
+    });
+    mapInstance.addControl(new maps.ZoomControl(), maps.ControlPosition.RIGHT);
+    markers = located.map((place, index) => createNumberedMarker(
+      mapInstance,
+      new maps.LatLng(place.lat, place.lng),
+      index + 1,
+    ));
     if (located.length > 1) {
-      new naver.maps.Polyline({ map: mapInstance, path: located.map(p => new naver.maps.LatLng(p.lat, p.lng)), strokeColor: "#ef674f", strokeWeight: 3, strokeOpacity: .8, strokeStyle: "shortdash" });
-      const bounds = new naver.maps.LatLngBounds(); located.forEach(p => bounds.extend(new naver.maps.LatLng(p.lat, p.lng))); mapInstance.fitBounds(bounds, { top: 40, right: 40, bottom: 40, left: 40 });
+      new maps.Polyline({
+        map: mapInstance,
+        path: located.map(place => new maps.LatLng(place.lat, place.lng)),
+        strokeColor: "#ef674f", strokeWeight: 3, strokeOpacity: 0.8, strokeStyle: "shortdash",
+      });
+      const bounds = new maps.LatLngBounds();
+      located.forEach(place => bounds.extend(new maps.LatLng(place.lat, place.lng)));
+      mapInstance.setBounds(bounds, 40, 40, 40, 40);
+    } else {
+      mapInstance.setLevel(5);
     }
   } catch (error) {
     const fallbackQuery = located[0]?.query || day.area;
-    canvas.innerHTML = `<div class="map-fallback"><div class="map-fallback__route">${located.map((p, i) => `<span><b>${i + 1}</b>${p.name}</span>`).join('<i>→</i>')}</div><strong>${error.message === "NO_CLIENT_ID" ? "Naver Map 尚未設定" : "Naver Map 暫時無法載入"}</strong><p>行程與導航連結仍可正常使用。部署前在 <code>config.js</code> 填入 ncpKeyId，即可顯示互動地圖。</p><div class="map-links map-links--center">${mapProviderLinks(fallbackQuery, "開啟")}</div></div>`;
+    canvas.innerHTML = `<div class="map-fallback"><div class="map-fallback__route">${located.map((p, i) => `<span><b>${i + 1}</b>${p.name}</span>`).join('<i>→</i>')}</div><strong>${error.message === "NO_APP_KEY" ? "Kakao Map 尚未設定" : "Kakao Map 暫時無法載入"}</strong><p>行程與導航連結仍可正常使用。請在 <code>config.js</code> 填入 JavaScript key，並於 Kakao Developers 登記目前網域。</p><div class="map-links map-links--center">${mapProviderLinks(fallbackQuery, "開啟")}</div></div>`;
   }
 }
 
@@ -206,36 +240,47 @@ async function initializeFoodMap() {
   const canvas = document.querySelector("#food-map");
   if (!canvas) return;
   try {
-    await loadNaverMaps(window.NAVER_MAP_CLIENT_ID);
+    await loadKakaoMaps(window.KAKAO_MAP_JAVASCRIPT_KEY);
     if (!document.body.contains(canvas)) return;
-    const foodMap = new naver.maps.Map(canvas, {
-      center: new naver.maps.LatLng(37.278, 127.025), zoom: 13,
-      zoomControl: true, zoomControlOptions: { position: naver.maps.Position.TOP_RIGHT },
+    const { maps } = window.kakao;
+    const foodMap = new maps.Map(canvas, {
+      center: new maps.LatLng(37.278, 127.025), level: 6,
     });
-    const bounds = new naver.maps.LatLngBounds();
+    foodMap.addControl(new maps.ZoomControl(), maps.ControlPosition.RIGHT);
+    const bounds = new maps.LatLngBounds();
+    let activeInfo = null;
     suwonFood.forEach((place, index) => {
-      const position = new naver.maps.LatLng(place.lat, place.lng);
+      const position = new maps.LatLng(place.lat, place.lng);
       bounds.extend(position);
-      const marker = new naver.maps.Marker({
-        position, map: foodMap, title: `${index + 1}. ${place.name}`,
-        icon: { content: `<div class="naver-marker food-marker">${index + 1}</div>`, anchor: new naver.maps.Point(18, 18) },
+      const infoContent = document.createElement("div");
+      infoContent.className = "food-info";
+      infoContent.innerHTML = `<b>${place.name}</b><span>${place.korean}</span><small>${place.dishes.join(" · ")}</small><div><a href="${mapLink(place.query)}" target="_blank" rel="noreferrer">Naver Map ↗</a><a href="${googleMapLink(place.query)}" target="_blank" rel="noreferrer">Google Maps ↗</a></div>`;
+      infoContent.addEventListener("click", event => event.stopPropagation());
+      const info = new maps.CustomOverlay({
+        position, content: infoContent, xAnchor: 0.5, yAnchor: 1.25, zIndex: 3,
       });
-      const info = new naver.maps.InfoWindow({
-        content: `<div class="food-info"><b>${place.name}</b><span>${place.korean}</span><small>${place.dishes.join(" · ")}</small><div><a href="${mapLink(place.query)}" target="_blank" rel="noreferrer">Naver Map ↗</a><a href="${googleMapLink(place.query)}" target="_blank" rel="noreferrer">Google Maps ↗</a></div></div>`,
-        borderWidth: 0, backgroundColor: "transparent", disableAnchor: true,
-      });
-      naver.maps.Event.addListener(marker, "click", () => {
-        info.open(foodMap, marker);
+      const showInfo = () => {
+        if (activeInfo && activeInfo !== info) activeInfo.setMap(null);
+        info.setMap(foodMap);
+        activeInfo = info;
+        foodMap.panTo(position);
+      };
+      createNumberedMarker(foodMap, position, index + 1, "food-marker", () => {
+        showInfo();
         document.querySelector(`[data-food-index="${index}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
       });
       document.querySelector(`[data-food-index="${index}"]`)?.addEventListener("click", event => {
         if (event.target.closest("a")) return;
-        foodMap.panTo(position); info.open(foodMap, marker);
+        showInfo();
       });
     });
-    foodMap.fitBounds(bounds, { top: 45, right: 45, bottom: 45, left: 45 });
+    maps.event.addListener(foodMap, "click", () => {
+      activeInfo?.setMap(null);
+      activeInfo = null;
+    });
+    foodMap.setBounds(bounds, 45, 45, 45, 45);
   } catch (error) {
-    canvas.innerHTML = `<div class="map-fallback food-fallback"><div class="food-fallback__pins">${suwonFood.map((place, index) => `<div><b>${index + 1}</b><span>${place.name}</span><a href="${mapLink(place.query)}" target="_blank" rel="noreferrer">Naver</a><a href="${googleMapLink(place.query)}" target="_blank" rel="noreferrer">Google</a></div>`).join("")}</div><strong>${error.message === "NO_CLIENT_ID" ? "設定完成後顯示互動美食地圖" : "美食地圖暫時無法載入"}</strong><p>現在仍可透過 Naver Map 或 Google Maps 查看餐廳位置。</p></div>`;
+    canvas.innerHTML = `<div class="map-fallback food-fallback"><div class="food-fallback__pins">${suwonFood.map((place, index) => `<div><b>${index + 1}</b><span>${place.name}</span><a href="${mapLink(place.query)}" target="_blank" rel="noreferrer">Naver</a><a href="${googleMapLink(place.query)}" target="_blank" rel="noreferrer">Google</a></div>`).join("")}</div><strong>${error.message === "NO_APP_KEY" ? "填入 Kakao JavaScript key 後顯示互動美食地圖" : "Kakao 美食地圖暫時無法載入"}</strong><p>現在仍可透過 Naver Map 或 Google Maps 查看餐廳位置。</p></div>`;
   }
 }
 

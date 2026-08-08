@@ -13,7 +13,7 @@
 
 1. 解析 PDF，建立結構化行程資料。
 2. 查證景點位置、交通資訊與自理餐食附近的餐廳。
-3. 確認 Naver Map 在靜態網站及 GitHub Pages 的可行整合方式。
+3. 確認韓國在地地圖在靜態網站及 GitHub Pages 的可行整合方式。
 4. 建立手機優先 UI：日期分頁、行程摘要、時間軸、交通區段與地圖。
 5. 加入桌機版響應式配置、載入／錯誤狀態與基本無障礙支援。
 6. 執行建置、型別／程式碼檢查及主要互動驗證。
@@ -23,7 +23,7 @@
 
 - Vite + React + TypeScript。
 - 行程資料獨立於 UI，便於後續修改或新增任務。
-- Naver Maps JavaScript API 若需要 Client ID，透過 Vite 環境變數注入；未設定時提供不會壞掉的地圖替代介面與 Naver Map 導航連結。
+- 互動地圖使用 Kakao Maps JavaScript SDK；未設定 JavaScript key 時提供不會壞掉的地圖替代介面與外部導航連結。
 - 導航外連優先使用 Naver Map，並保留韓文地址／搜尋關鍵字方便旅途中複製使用。
 
 ## 驗收條件
@@ -32,7 +32,7 @@
 - 日期分頁可點擊與橫向滑動，切換後時間軸與地圖同步更新。
 - 每段交通方式與預估時間可辨識。
 - 所有自理午／晚餐至少有具體推薦，包含料理類型、推薦理由、地址或地區、Naver Map 連結。
-- 未設定 Naver API 金鑰時仍可完整閱讀行程及開啟外部導航。
+- 未設定 Kakao JavaScript key 時仍可完整閱讀行程及開啟外部導航。
 - `npm run build` 成功，並可透過 GitHub Actions 發佈到 GitHub Pages。
 
 ## 待 PDF 解析後補入
@@ -79,3 +79,13 @@
 - 水原美食：佳甫亭、本水原排骨、柳池會館、真味炸雞、地洞市場血腸城、保榮餃子；互動地圖與無 API key 替代介面均提供 Naver Map／Google Maps 雙外連。
 - 2026 購物清單：藥妝保養、彩妝美妝、服飾配件、零食伴手禮、生活與紀念品五類；各分類附來源並在瀏覽器保存勾選狀態。
 - 美食研究優先採用韓國觀光公社、水原市官方旅遊資料與店家官方資訊；購物研究採近期 2026 指南、韓國觀光公社及 MUSINSA 官方資料。
+
+## Kakao Map 遷移
+
+- 互動地圖供應商已由 Naver Maps JavaScript API 改為 Kakao Maps JavaScript SDK。
+- 每日地圖支援編號標記、站點順序虛線、縮放控制與自動縮放至當日所有地點。
+- 水原美食地圖支援編號標記、點擊餐廳卡片定位，以及含推薦餐點與外部導航的資訊窗。
+- `config.js` 使用瀏覽器端 `KAKAO_MAP_JAVASCRIPT_KEY`；必須在 Kakao Developers 登記 `http://localhost:4173` 與 GitHub Pages 網域。
+- 未填 key、SDK 載入失敗或網域未授權時，仍顯示路線摘要及 Naver Map／Google Maps 雙外連。
+
+參考：[Kakao Maps JavaScript API Guide](https://apis.map.kakao.com/web/guide/)、[Kakao Maps JavaScript API Documentation](https://apis.map.kakao.com/web/documentation/)、[Kakao Platform Key 設定](https://developers.kakao.com/docs/en/app-setting/app#platform-key)。
