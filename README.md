@@ -12,6 +12,7 @@
 - 六個水原代表美食的獨立地圖、推薦餐點與研究來源。
 - 依藥妝、彩妝、服飾、零食與生活紀念品分類的 2026 購物清單；勾選進度會保存在裝置中。
 - 未設定 Kakao JavaScript key 時仍可使用的路線摘要。
+- `/#solo` 私人行程入口；日期、地點與行程以密碼在瀏覽器內解密，一般網址不顯示入口。
 
 ## 本機預覽
 
@@ -47,6 +48,16 @@ window.KAKAO_MAP_JAVASCRIPT_KEY = "你的_JavaScript_key";
 本站會以 `autoload=false` 動態載入 SDK，再等待 `kakao.maps.load()` 完成。沒有填 key、網域未登記或 SDK 暫時載入失敗時，頁面會自動改顯示輕量路線摘要，Naver Map 與 Google Maps 外連仍可使用。
 
 [`data.js`](data.js) 的每個地點已內含 WGS84 的 `lat` / `lng`，直接用於 `new kakao.maps.LatLng(lat, lng)`，不需要額外座標轉換。
+
+## 私人行程
+
+一般網址只顯示 9/11–9/15 團體行程。私人入口為：
+
+```text
+https://greenstonewei.github.io/202609-korea-trip/#solo
+```
+
+私人資料不會以明文提交；`.private/solo-trip.json` 由本機加密工具轉成公開可部署的 `solo-trip.enc.json` 密文。密碼不會保存至瀏覽器儲存空間。資料格式、加密方式與更新步驟請見 [`docs/SOLO_TRIP.md`](docs/SOLO_TRIP.md)。
 
 ## 部署 GitHub Pages
 

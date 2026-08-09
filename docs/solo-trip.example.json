@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "title": "韓國獨旅",
+  "subtitle": "只會在解鎖後顯示的副標題",
+  "dates": "YYYY.MM.DD — MM.DD",
+  "days": [
+    {
+      "id": 1,
+      "date": "MM.DD",
+      "weekday": "X",
+      "area": "待規劃",
+      "title": "獨旅第一天",
+      "summary": ["住宿待確認", "步行＋大眾運輸"],
+      "transport": "依實際行程填寫",
+      "places": [
+        {
+          "name": "範例地點",
+          "query": "韓文或英文地圖搜尋字串",
+          "lat": 37.5665,
+          "lng": 126.978
+        }
+      ],
+      "events": [
+        {
+          "time": "10:00",
+          "type": "place",
+          "title": "範例行程",
+          "subtitle": "解鎖後顯示的行程說明",
+          "meta": "可選填提醒",
+          "mapQuery": "韓文或英文地圖搜尋字串"
+        }
+      ]
+    }
+  ]
+}

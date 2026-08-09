@@ -1,4 +1,5 @@
 import { competitionVideos, days, googleSearch, naverSearch, recommendations, shoppingCategories, suwonFood, tripMeta } from "./data.js";
+import { initializeSoloAccess } from "./solo.js";
 
 const app = document.querySelector("#app");
 let activeDay = Number(sessionStorage.getItem("activeDay")) || 1;
@@ -43,11 +44,13 @@ function renderShell() {
     </nav>
     <main id="day-content"></main>
     <div id="extras" class="extras"></div>
+    <div id="solo-access-root"></div>
     <footer><span>韓國五日 · 旅行手帖</span><span>資料整理自旅行社 PDF · 更新 2026.08.08</span></footer>`;
 
   document.querySelectorAll(".day-tab").forEach(button => button.addEventListener("click", () => selectDay(Number(button.dataset.day))));
   selectDay(activeDay, false);
   renderExtras();
+  initializeSoloAccess(document.querySelector("#solo-access-root"));
 }
 
 function extrasHeading(kicker, title, note) {
