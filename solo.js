@@ -126,10 +126,16 @@ function renderSoloDay(day) {
   return `<section class="solo-day-intro"><p class="eyebrow">SOLO DAY ${activeSoloDay + 1} · ${escapeHtml(day.area || "待規劃")}</p><h2>${escapeHtml(day.title || "獨旅行程")}</h2><div class="chips">${(day.summary || []).map(item => `<span>${escapeHtml(item)}</span>`).join("")}</div></section><section class="solo-schedule"><div class="section-heading"><div><p class="eyebrow">PRIVATE ITINERARY</p><h2>${escapeHtml(day.date || "")} · 週${escapeHtml(day.weekday || "")}</h2></div><span>${events.length} 個安排</span></div>${day.transport ? `<div class="transport-summary"><span>→</span><div><strong>今日交通</strong><p>${escapeHtml(day.transport)}</p></div></div>` : ""}<div class="timeline solo-timeline">${events.length ? events.map((item, index) => renderSoloEvent(item, index, events.length)).join("") : '<div class="solo-empty">這一天還沒有安排。</div>'}</div></section>`;
 }
 
+function renderGiftChecklist() {
+  const gifts = Array.isArray(unlockedTrip.giftChecklist) ? unlockedTrip.giftChecklist : [];
+  if (!gifts.length) return "";
+  return `<section class="solo-gifts"><div class="section-heading"><div><p class="eyebrow">PRIVATE CHECKLIST</p><h2>伴手禮對象</h2></div><span>${gifts.length} 位／組</span></div><p class="solo-gifts__privacy">姓名只存在解密後的頁面；瀏覽器僅保存匿名勾選編號，不保存姓名。</p><div class="solo-gifts__grid">${gifts.map((name, index) => `<label class="solo-gift"><input type="checkbox" data-solo-gift="${index}" ${localStorage.getItem(`solo-gift-check:${index}`) === "1" ? "checked" : ""}><span class="solo-gift__check">✓</span><strong>${escapeHtml(name)}</strong></label>`).join("")}</div></section>`;
+}
+
 function renderUnlockedTrip() {
   const days = unlockedTrip.days;
   const day = days[activeSoloDay];
-  root.innerHTML = frame(`<header class="solo-header"><div><p>PRIVATE · DECRYPTED LOCALLY</p><h1>${escapeHtml(unlockedTrip.title || "韓國獨旅")}</h1><span>${escapeHtml(unlockedTrip.subtitle || unlockedTrip.dates || "")}</span></div><button class="solo-lock" type="button">立即鎖定</button></header><nav class="solo-tabs" aria-label="切換私人行程日期">${days.map((item, index) => `<button type="button" data-solo-day="${index}" aria-selected="${index === activeSoloDay}" class="${index === activeSoloDay ? "is-active" : ""}"><small>SOLO ${index + 1}</small><strong>${escapeHtml(item.date || "")}</strong><span>週${escapeHtml(item.weekday || "")}</span></button>`).join("")}</nav><main class="solo-content">${day ? renderSoloDay(day) : '<div class="solo-empty">私人行程尚未加入日期。</div>'}</main>`, "is-unlocked");
+  root.innerHTML = frame(`<header class="solo-header"><div><p>PRIVATE · DECRYPTED LOCALLY</p><h1>${escapeHtml(unlockedTrip.title || "韓國獨旅")}</h1><span>${escapeHtml(unlockedTrip.subtitle || unlockedTrip.dates || "")}</span></div><button class="solo-lock" type="button">立即鎖定</button></header><nav class="solo-tabs" aria-label="切換私人行程日期">${days.map((item, index) => `<button type="button" data-solo-day="${index}" aria-selected="${index === activeSoloDay}" class="${index === activeSoloDay ? "is-active" : ""}"><small>SOLO ${index + 1}</small><strong>${escapeHtml(item.date || "")}</strong><span>週${escapeHtml(item.weekday || "")}</span></button>`).join("")}</nav><main class="solo-content">${day ? renderSoloDay(day) : '<div class="solo-empty">私人行程尚未加入日期。</div>'}${renderGiftChecklist()}</main>`, "is-unlocked");
   bindClose();
   root.querySelector(".solo-lock")?.addEventListener("click", () => {
     unlockedTrip = null;
@@ -139,6 +145,9 @@ function renderUnlockedTrip() {
   root.querySelectorAll("[data-solo-day]").forEach(button => button.addEventListener("click", () => {
     activeSoloDay = Number(button.dataset.soloDay);
     renderUnlockedTrip();
+  }));
+  root.querySelectorAll("[data-solo-gift]").forEach(input => input.addEventListener("change", () => {
+    localStorage.setItem(`solo-gift-check:${input.dataset.soloGift}`, input.checked ? "1" : "0");
   }));
 }
 

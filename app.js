@@ -3,6 +3,10 @@ import { initializeSoloAccess } from "./solo.js";
 
 const app = document.querySelector("#app");
 let activeDay = Number(sessionStorage.getItem("activeDay")) || 1;
+const featureIds = ["trip", "guide", "food", "prep", "competition"];
+let activeFeature = featureIds.includes(sessionStorage.getItem("activeFeature")) ? sessionStorage.getItem("activeFeature") : "trip";
+const featureMapsStarted = new Set();
+const featureMapInstances = { guide: [], food: [] };
 let mapInstance = null;
 let markers = [];
 
@@ -36,25 +40,88 @@ function renderShell() {
         <span>${tripMeta.dates}</span><span>${tripMeta.hotel}</span>
       </div>
     </header>
-    <nav class="day-tabs" aria-label="切換行程日期"><div class="day-tabs__track">
-      ${days.map(day => `<button class="day-tab" data-day="${day.id}" aria-selected="false"><small>DAY ${day.id}</small><strong>${day.date}</strong><span>週${day.weekday}</span></button>`).join("")}
-    </div></nav>
-    <nav class="feature-nav" aria-label="旅行工具快速連結">
-      <a href="#seoul-guide">首爾區域</a><a href="#culinary-restaurants">黑白大廚</a><a href="#shared-food">首爾美食</a><a href="#hongdae-saves">弘大收藏</a><a href="#feibo-saves">肥波收藏</a><a href="#laotao-saves">老饕收藏</a><a href="#jinzhengu-saves">金針菇收藏</a><a href="#threads-research">Threads 情報</a><a href="#travel-prep">行前準備</a><a href="#competition-videos">比賽影片</a><a href="#suwon-food">水原美食</a><a href="#shopping-list">購物清單</a>
+    <nav class="app-nav" aria-label="切換主要功能" role="tablist">
+      <button type="button" role="tab" data-feature="trip"><span>01</span>團體行程</button>
+      <button type="button" role="tab" data-feature="guide"><span>02</span>首爾逛街</button>
+      <button type="button" role="tab" data-feature="food"><span>03</span>美食收藏</button>
+      <button type="button" role="tab" data-feature="prep"><span>04</span>購物準備</button>
+      <button type="button" role="tab" data-feature="competition"><span>05</span>比賽影片</button>
     </nav>
-    <main id="day-content"></main>
+    <section class="feature-view trip-view" data-feature-view="trip" role="tabpanel">
+      <nav class="day-tabs" aria-label="切換行程日期"><div class="day-tabs__track">
+        ${days.map(day => `<button class="day-tab" data-day="${day.id}" aria-selected="false"><small>DAY ${day.id}</small><strong>${day.date}</strong><span>週${day.weekday}</span></button>`).join("")}
+      </div></nav>
+      <main id="day-content"></main>
+    </section>
     <div id="extras" class="extras"></div>
     <div id="solo-access-root"></div>
     <footer><span>韓國五日 · 旅行手帖</span><span>資料整理自旅行社 PDF、官方旅遊資訊與旅伴心得 · 更新 2026.08.09</span></footer>`;
 
-  document.querySelectorAll(".day-tab").forEach(button => button.addEventListener("click", () => selectDay(Number(button.dataset.day))));
-  selectDay(activeDay, false);
   renderExtras();
+  document.querySelectorAll(".day-tab").forEach(button => button.addEventListener("click", () => selectDay(Number(button.dataset.day))));
+  document.querySelectorAll("[data-feature]").forEach(button => button.addEventListener("click", () => selectFeature(button.dataset.feature)));
+  selectFeature(activeFeature, false);
+  selectDay(activeDay, false);
   initializeSoloAccess(document.querySelector("#solo-access-root"));
 }
 
 function extrasHeading(kicker, title, note) {
   return `<div class="extras-heading"><div><p class="eyebrow">${kicker}</p><h2>${title}</h2></div><p>${note}</p></div>`;
+}
+
+const featureSections = {
+  guide: ["seoul-guide", "threads-research"],
+  food: ["culinary-restaurants", "shared-food", "hongdae-saves", "feibo-saves", "laotao-saves", "jinzhengu-saves", "suwon-food"],
+  prep: ["travel-prep", "shopping-list"],
+  competition: ["competition-videos"],
+};
+
+function organizeFeatureViews() {
+  const extras = document.querySelector("#extras");
+  Object.entries(featureSections).forEach(([feature, ids]) => {
+    const panel = document.createElement("section");
+    panel.className = `feature-view ${feature}-view`;
+    panel.dataset.featureView = feature;
+    panel.setAttribute("role", "tabpanel");
+    ids.forEach(id => {
+      const section = document.getElementById(id);
+      if (section) panel.appendChild(section);
+    });
+    extras.appendChild(panel);
+  });
+}
+
+function initializeFeatureMaps(feature) {
+  if (!featureMapsStarted.has(feature)) {
+    featureMapsStarted.add(feature);
+    if (feature === "guide") initializeSeoulAreaMap();
+    if (feature === "food") {
+      initializeCulinaryMap();
+      initializeSharedFoodMap();
+      initializeFoodMap();
+    }
+    return;
+  }
+  window.setTimeout(() => featureMapInstances[feature]?.forEach(map => map.relayout?.()), 0);
+}
+
+function selectFeature(feature, scroll = true) {
+  if (!featureIds.includes(feature)) feature = "trip";
+  activeFeature = feature;
+  sessionStorage.setItem("activeFeature", feature);
+  document.querySelectorAll("[data-feature]").forEach(button => {
+    const selected = button.dataset.feature === feature;
+    button.classList.toggle("is-active", selected);
+    button.setAttribute("aria-selected", String(selected));
+  });
+  document.querySelectorAll("[data-feature-view]").forEach(panel => {
+    const selected = panel.dataset.featureView === feature;
+    panel.hidden = !selected;
+    panel.classList.toggle("is-active", selected);
+  });
+  if (feature === "trip") renderDay(days.find(day => day.id === activeDay));
+  else initializeFeatureMaps(feature);
+  if (scroll) document.querySelector(".app-nav")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function sharedFoodCard(place, index) {
@@ -269,10 +336,7 @@ function renderExtras() {
     input.checked = localStorage.getItem(`shopping:${input.value}`) === "1";
     input.addEventListener("change", () => localStorage.setItem(`shopping:${input.value}`, input.checked ? "1" : "0"));
   });
-  initializeSeoulAreaMap();
-  initializeCulinaryMap();
-  initializeSharedFoodMap();
-  initializeFoodMap();
+  organizeFeatureViews();
 }
 
 function selectCulinaryFilter(filter) {
@@ -355,7 +419,7 @@ function renderDay(day) {
       <div class="timeline">${day.events.map((event, index) => eventCard(event, index, index === day.events.length - 1)).join("")}</div>
     </section>
     <aside class="notice"><span>!</span><div><strong>行程資料提醒</strong><p>PDF 未提供比賽場館、賽程及多數集合時間；頁面保留「待確認」而不猜測。交通時間僅為規劃參考，請以導遊與當日路況為準。</p></div></aside>`;
-  initializeMap(day);
+  if (activeFeature === "trip") initializeMap(day);
 }
 
 function loadKakaoMaps(appKey) {
@@ -514,6 +578,7 @@ async function initializeSharedFoodMap() {
     const sharedMap = new maps.Map(canvas, {
       center: new maps.LatLng(37.555, 126.995), level: 9,
     });
+    featureMapInstances.food.push(sharedMap);
     sharedMap.addControl(new maps.ZoomControl(), maps.ControlPosition.RIGHT);
     const located = await locateSharedFoodPlaces(maps, completed => {
       const loading = canvas.querySelector(".map-loading");
@@ -587,6 +652,7 @@ async function initializeFoodMap() {
     const foodMap = new maps.Map(canvas, {
       center: new maps.LatLng(37.278, 127.025), level: 6,
     });
+    featureMapInstances.food.push(foodMap);
     foodMap.addControl(new maps.ZoomControl(), maps.ControlPosition.RIGHT);
     const bounds = new maps.LatLngBounds();
     let activeInfo = null;
@@ -635,6 +701,7 @@ async function initializeSeoulAreaMap() {
     const areaMap = new maps.Map(canvas, {
       center: new maps.LatLng(37.548, 126.995), level: 9,
     });
+    featureMapInstances.guide.push(areaMap);
     areaMap.addControl(new maps.ZoomControl(), maps.ControlPosition.RIGHT);
     const bounds = new maps.LatLngBounds();
     let activeInfo = null;
@@ -684,6 +751,7 @@ async function initializeCulinaryMap() {
     const restaurantMap = new maps.Map(canvas, {
       center: new maps.LatLng(37.548, 127.000), level: 8,
     });
+    featureMapInstances.food.push(restaurantMap);
     restaurantMap.addControl(new maps.ZoomControl(), maps.ControlPosition.RIGHT);
     const bounds = new maps.LatLngBounds();
     let activeInfo = null;

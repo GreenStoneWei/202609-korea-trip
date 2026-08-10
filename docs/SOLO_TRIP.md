@@ -20,9 +20,12 @@
   "title": "韓國獨旅",
   "subtitle": "只會在解鎖後顯示的副標題",
   "dates": "YYYY.MM.DD — MM.DD",
+  "giftChecklist": ["收禮對象 A", "收禮對象 B"],
   "days": []
 }
 ```
+
+`giftChecklist` 是只在解鎖後顯示的伴手禮對象清單。姓名保存在加密資料內；勾選狀態以匿名索引保存在目前瀏覽器的 localStorage，不會寫入姓名，但同一部裝置會保留完成狀態。
 
 每個 `day` 可使用：
 
