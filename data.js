@@ -141,6 +141,15 @@ export const travelPrep = [
     ],
     source: "https://english.visitkorea.or.kr/svc/contents/contentsView.do?menuSn=929&vcontsId=248765", sourceLabel: "VISITKOREA 退稅指南",
   },
+  {
+    id: "restroom", step: "08", timing: "旅途中隨時", title: "臨時找廁所", priority: "實用",
+    summary: "在 Naver Map 或 Kakao Map 搜尋韓文關鍵字，比輸入中文或英文 restroom 更容易找到附近設施。",
+    checklist: [
+      "搜尋「화장실」＝廁所。",
+      "搜尋「공용화장실」＝公用／公共廁所。",
+      "可直接複製韓文關鍵字到地圖 App；抵達後再看營業時間、所在樓層與是否位於地鐵站內。",
+    ],
+  },
 ];
 
 export const culinaryRestaurants = [
@@ -783,7 +792,14 @@ export const threadsResearch = [
 ];
 
 const hotel = { name: "HOMES Stay Suwon", query: "홈즈스테이 수원", lat: 37.2636, lng: 127.0307 };
-const venue = { name: "比賽會場", query: "", note: "原始行程未提供會場名稱與地址" };
+const venue = {
+  name: "水原農業生命科學高中",
+  query: "수원농생명과학고등학교 광교산로 13",
+  note: "比賽場館 · 경기 수원시 장안구 광교산로 13",
+  lat: 37.2933608,
+  lng: 127.0202358,
+  officialUrl: "https://sunong-h.goesw.kr/sunong-h/main.do",
+};
 
 export const days = [
   {
@@ -799,36 +815,43 @@ export const days = [
     events: [
       { time: "07:30", title: "桃園出發", subtitle: "長榮航空 BR170", type: "flight", meta: "桃園 T2 → 仁川 · 約 3 小時 30 分", confirmed: true },
       { time: "11:00", title: "抵達仁川國際機場", subtitle: "入境、領取行李後集合", type: "place", place: "仁川國際機場", confirmed: true },
-      { time: "12:30", title: "午餐 · 石鍋拌飯＋小火鍋", subtitle: "旅行社安排", type: "food", meta: "實際餐廳待導遊公布", estimate: true },
-      { time: "午後", title: "前往比賽會場練習", subtitle: "團體專車接送", type: "activity", meta: "會場與練習時間尚未提供" },
+      { time: "12:30", title: "原訂午餐 · 石鍋拌飯＋小火鍋", subtitle: "旅行社安排", type: "food", meta: "與 13:00 前抵達場館的通知幾乎沒有緩衝，需確認是否提前、改餐盒或調整安排。", estimate: true },
+      { time: "13:00 前", title: "抵達比賽場地", subtitle: "水原農業生命科學高中", type: "place", meta: "13 Gwanggyosan-ro, Jangan-gu, Suwon-si, Gyeonggi-do", mapQuery: "수원농생명과학고등학교 광교산로 13", status: "比賽通知" },
+      { time: "13:00–17:00", title: "全體練習", subtitle: "2026 韓國京畿道國際體操比賽", type: "activity", meta: "依比賽通知準時到場；實際器材輪轉與結束集合以現場指示為準。", status: "比賽通知" },
       { time: "晚間", title: "晚餐 · 韓式烤肉", subtitle: "練習後前往，旅行社安排", type: "food" },
       { time: "夜間", title: "入住 HOMES Stay Suwon", subtitle: "水原市八達區仁溪路 116", type: "hotel", mapQuery: "홈즈스테이 수원" },
     ],
   },
   {
     id: 2, date: "09/12", weekday: "六", title: "全日比賽", area: "水原",
-    transport: "旅行社派車接送 · 不派導遊；路線與車程待會場地址確認",
+    transport: "旅行社派車接送 · 不派導遊；HOMES Stay Suwon ↔ 水原農業生命科學高中",
     summary: ["全日比賽", "專車接送", "午晚餐自理"],
     places: [hotel, venue],
     events: [
       { time: "早上", title: "飯店早餐", subtitle: "飯店內享用", type: "food" },
-      { time: "待確認", title: "專車前往比賽會場", subtitle: "不派導遊", type: "transport", meta: "上車時間與車程依會場位置確認" },
-      { time: "中午", title: "午餐自理", subtitle: "首選：保榮餃子（仁溪店／鄰近分店）", type: "recommendation", recommendationId: "boyeong" },
-      { time: "全日", title: "比賽日", subtitle: "賽程、場館尚待主辦單位提供", type: "activity" },
+      { time: "09:00 前", title: "抵達比賽場地", subtitle: "水原農業生命科學高中", type: "place", meta: "專車出發與上車時間仍需由旅行社公布。", mapQuery: "수원농생명과학고등학교 광교산로 13", status: "比賽通知" },
+      { time: "09:00–09:50", title: "賽前練習", subtitle: "全體參賽者", type: "activity", status: "比賽通知" },
+      { time: "11:00", title: "開幕式＆團體表演賽", subtitle: "第 1 個出場：童力／第 6 個出場：童力 36+", type: "activity", status: "比賽通知" },
+      { time: "中午空檔", title: "午餐自理", subtitle: "首選：保榮餃子（仁溪店／鄰近分店）", type: "recommendation", recommendationId: "boyeong", meta: "以現場檢錄與 Level 2 開賽時間為優先；離場前先確認往返時間。" },
+      { time: "14:30 起", title: "Level 2 比賽", subtitle: "實際檢錄與出場順序以現場公告為準", type: "activity", status: "比賽通知" },
+      { time: "16:10 起", title: "Level 3 比賽", subtitle: "實際檢錄與出場順序以現場公告為準", type: "activity", status: "比賽通知" },
       { time: "晚餐", title: "晚餐自理", subtitle: "首選：佳甫亭水原排骨", type: "recommendation", recommendationId: "kabojung" },
       { time: "賽後", title: "專車返回飯店", subtitle: "HOMES Stay Suwon", type: "transport" },
     ],
   },
   {
     id: 3, date: "09/13", weekday: "日", title: "全日比賽", area: "水原",
-    transport: "旅行社派車接送 · 不派導遊；路線與車程待會場地址確認",
+    transport: "旅行社派車接送 · 不派導遊；HOMES Stay Suwon ↔ 水原農業生命科學高中",
     summary: ["全日比賽", "專車接送", "午晚餐自理"],
     places: [hotel, venue],
     events: [
       { time: "早上", title: "飯店早餐", subtitle: "飯店內享用", type: "food" },
-      { time: "待確認", title: "專車前往比賽會場", subtitle: "不派導遊", type: "transport", meta: "上車時間與車程依會場位置確認" },
-      { time: "中午", title: "午餐自理", subtitle: "首選：柳池會館 · 水原醒酒湯", type: "recommendation", recommendationId: "yuchi" },
-      { time: "全日", title: "比賽日", subtitle: "賽程、場館尚待主辦單位提供", type: "activity" },
+      { time: "09:00 前", title: "抵達比賽場地", subtitle: "水原農業生命科學高中", type: "place", meta: "專車出發與上車時間仍需由旅行社公布。", mapQuery: "수원농생명과학고등학교 광교산로 13", status: "比賽通知" },
+      { time: "09:00–09:50", title: "賽前練習", subtitle: "全體參賽者", type: "activity", status: "比賽通知" },
+      { time: "10:00 起", title: "Level 4 比賽", subtitle: "實際檢錄與出場順序以現場公告為準", type: "activity", status: "比賽通知" },
+      { time: "12:30 起", title: "Level 5–8 比賽", subtitle: "實際檢錄與出場順序以現場公告為準", type: "activity", status: "比賽通知" },
+      { time: "14:00 起", title: "KGA（FIG）比賽", subtitle: "成人組列在此組", type: "activity", status: "比賽通知" },
+      { time: "賽程空檔", title: "午餐自理", subtitle: "備選：柳池會館 · 水原醒酒湯", type: "recommendation", recommendationId: "yuchi", meta: "當日賽程密集，只有確認不影響檢錄與出場時才離場用餐；優先準備場館附近或可攜餐點。" },
       { time: "晚餐", title: "晚餐自理", subtitle: "首選：真味炸雞 · 水原炸雞街", type: "recommendation", recommendationId: "jinmi" },
       { time: "賽後", title: "專車返回飯店", subtitle: "HOMES Stay Suwon", type: "transport" },
     ],
