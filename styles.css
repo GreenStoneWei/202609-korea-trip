@@ -1,4 +1,5 @@
 :root { --paper:#f6f2ea; --ink:#17201d; --muted:#69716c; --line:#d9d7cf; --accent:#ef674f; --green:#1f5a49; --soft:#e9e4d9; --white:#fffdf8; }
+.solo-hotel{margin-top:18px;padding:17px 18px;background:var(--white);border:1px solid var(--line);border-radius:18px}.solo-hotel .eyebrow{margin:0 0 4px}.solo-hotel h2{margin:0;font-size:19px}.solo-hotel>div>span{display:block;margin-top:2px;color:var(--muted);font-size:10px}.solo-hotel>p{margin:10px 0 0;color:var(--muted);font-size:10px;line-height:1.6}.solo-hotel .map-links{margin-top:11px}
 * { box-sizing:border-box; }
 html { scroll-behavior:smooth; }
 body { margin:0; background:var(--paper); color:var(--ink); font-family:"DM Sans","Noto Sans TC",sans-serif; -webkit-font-smoothing:antialiased; }

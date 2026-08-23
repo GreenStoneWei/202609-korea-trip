@@ -132,10 +132,16 @@ function renderGiftChecklist() {
   return `<section class="solo-gifts"><div class="section-heading"><div><p class="eyebrow">PRIVATE CHECKLIST</p><h2>伴手禮對象</h2></div><span>${gifts.length} 位／組</span></div><p class="solo-gifts__privacy">姓名只存在解密後的頁面；瀏覽器僅保存匿名勾選編號，不保存姓名。</p><div class="solo-gifts__grid">${gifts.map((name, index) => `<label class="solo-gift"><input type="checkbox" data-solo-gift="${index}" ${localStorage.getItem(`solo-gift-check:${index}`) === "1" ? "checked" : ""}><span class="solo-gift__check">✓</span><strong>${escapeHtml(name)}</strong></label>`).join("")}</div></section>`;
 }
 
+function renderSoloHotel() {
+  const hotel = unlockedTrip.hotel;
+  if (!hotel || (!hotel.name && !hotel.address)) return "";
+  return `<section class="solo-hotel"><div><p class="eyebrow">PRIVATE STAY</p><h2>${escapeHtml(hotel.name || "住宿")}</h2>${hotel.korean ? `<span>${escapeHtml(hotel.korean)}</span>` : ""}</div>${hotel.address ? `<p>${escapeHtml(hotel.address)}</p>` : ""}${soloMapLinks(hotel.mapQuery || hotel.address)}</section>`;
+}
+
 function renderUnlockedTrip() {
   const days = unlockedTrip.days;
   const day = days[activeSoloDay];
-  root.innerHTML = frame(`<header class="solo-header"><div><p>PRIVATE · DECRYPTED LOCALLY</p><h1>${escapeHtml(unlockedTrip.title || "韓國獨旅")}</h1><span>${escapeHtml(unlockedTrip.subtitle || unlockedTrip.dates || "")}</span></div><button class="solo-lock" type="button">立即鎖定</button></header><nav class="solo-tabs" aria-label="切換私人行程日期">${days.map((item, index) => `<button type="button" data-solo-day="${index}" aria-selected="${index === activeSoloDay}" class="${index === activeSoloDay ? "is-active" : ""}"><small>SOLO ${index + 1}</small><strong>${escapeHtml(item.date || "")}</strong><span>週${escapeHtml(item.weekday || "")}</span></button>`).join("")}</nav><main class="solo-content">${day ? renderSoloDay(day) : '<div class="solo-empty">私人行程尚未加入日期。</div>'}${renderGiftChecklist()}</main>`, "is-unlocked");
+  root.innerHTML = frame(`<header class="solo-header"><div><p>PRIVATE · DECRYPTED LOCALLY</p><h1>${escapeHtml(unlockedTrip.title || "韓國獨旅")}</h1><span>${escapeHtml(unlockedTrip.subtitle || unlockedTrip.dates || "")}</span></div><button class="solo-lock" type="button">立即鎖定</button></header><nav class="solo-tabs" aria-label="切換私人行程日期">${days.map((item, index) => `<button type="button" data-solo-day="${index}" aria-selected="${index === activeSoloDay}" class="${index === activeSoloDay ? "is-active" : ""}"><small>SOLO ${index + 1}</small><strong>${escapeHtml(item.date || "")}</strong><span>週${escapeHtml(item.weekday || "")}</span></button>`).join("")}</nav><main class="solo-content">${renderSoloHotel()}${day ? renderSoloDay(day) : '<div class="solo-empty">私人行程尚未加入日期。</div>'}${renderGiftChecklist()}</main>`, "is-unlocked");
   bindClose();
   root.querySelector(".solo-lock")?.addEventListener("click", () => {
     unlockedTrip = null;

@@ -3,7 +3,7 @@ const googleSearch = (query) => `https://www.google.com/maps/search/?api=1&query
 
 export const tripMeta = {
   title: "韓國五日遊",
-  subtitle: "比賽、首爾散策與水原小旅行",
+  subtitle: "比賽、首爾自由行與水原小旅行",
   dates: "2026.09.11 — 09.15",
   hotel: "HOMES Stay Suwon",
   hotelAddress: "경기도 수원시 팔달구 인계로 116",
@@ -995,6 +995,10 @@ export const shoppingCategories = [
       { name: "Torriden Dive-In 精華", detail: "以補水為主的玻尿酸精華。", priority: "乾燥肌" },
       { name: "Mediheal／Biodance 面膜", detail: "單片好分送，留意 1+1 或多入組。", priority: "伴手禮" },
       { name: "VT Reedle Shot 100", detail: "有刺激感的入門版本，敏感肌先局部測試。", priority: "先試再買" },
+      { name: "理膚寶水（La Roche-Posay）B5+ 全面修復霜", detail: "雷射治療或除毛後可厚塗的修復霜；含維生素原 B5、積雪草萃取物與神經醯胺，幫助舒緩泛紅、保濕並修護受損肌膚屏障。", priority: "術後修復" },
+      { name: "AESTURA 沛護保濕霜（Atobarrier 365 Cream）", detail: "含膠原蛋白與脂肪酸，能加強保濕、鎖住肌膚彈性，適合乾燥脆弱且需要強效保濕膜的肌膚。", priority: "強效保濕" },
+      { name: "REJURAN 麗珠蘭 逆齡修復精華 雙效升級版", detail: "蘊含麗珠蘭水光療程核心成分，為粗糙疲憊的肌膚補充深層營養，打造緊緻、光澤且柔滑的膚質。", priority: "頂級抗老" },
+      { name: "Dr.Reju-All Advanced PDRN Rejuvenating Cream", detail: "含 1,200 ppm、99% 高純度鮭魚來源 PDRN，搭配膠原蛋白、玻尿酸、泛醇與尿囊素，主打舒緩、深層保濕與肌膚修護；魚類過敏者使用前需留意。", priority: "PDRN 修護" },
     ],
   },
   {
@@ -1025,6 +1029,13 @@ export const shoppingCategories = [
       { name: "韓國海苔／海苔脆片", detail: "輕巧好帶，注意包裝避免行李擠壓。", priority: "家庭禮" },
       { name: "限定口味泡麵與零食", detail: "超市通常比觀光區選擇多；留意肉類成分入境限制。", priority: "限定款" },
       { name: "柚子茶／傳統茶包", detail: "玻璃罐較重，優先挑補充包或茶包。", priority: "長輩禮" },
+      { name: "外酥內嫩炸魷魚（겉바속촉 오징어 튀김）", detail: "韓國超市常見的酥脆魷魚零食，鹹香有嚼勁；購買前確認保存方式與海鮮入境規定。", priority: "鹹食零嘴" },
+      { name: "Market O Cream Cheese Brownie", detail: "奶油乳酪蛋糕與濃郁巧克力布朗尼雙層口感，盒裝方便分享。", priority: "人氣甜點" },
+      { name: "Orion Bichobi 韓國限定巧克力夾心餅乾", detail: "巧克力夾心搭配酥脆餅乾，韓國風包裝適合當伴手禮。", priority: "韓國限定" },
+      { name: "LOTTE Premium Ghana Langue de Chat 抹茶餅乾", detail: "濃郁抹茶塗層搭配巧克力夾心的薄脆貓舌餅乾，適合抹茶愛好者。", priority: "抹茶口味" },
+      { name: "Orion 沾醬預感洋芋片（찍먹 예감）", detail: "附沾醬的厚切洋芋片；圖片為青陽辣椒蒜香美乃滋與 Chipotle 美乃滋兩種口味，可各買一盒比較。", priority: "雙口味" },
+      { name: "韓國柿子乾（감말랭이）", detail: "袋裝韓國產柿子乾，口感柔韌、果香自然；留意台灣入境的乾燥水果規定。", priority: "果乾" },
+      { name: "Milk Classic 牛奶米餅（쌀과자）", detail: "含米量 56% 的非油炸牛奶風味米餅，獨立包裝適合分送。", priority: "人氣米餅" },
     ],
   },
   {

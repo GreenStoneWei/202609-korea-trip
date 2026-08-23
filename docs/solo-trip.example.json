@@ -3,6 +3,12 @@
   "title": "韓國獨旅",
   "subtitle": "只會在解鎖後顯示的副標題",
   "dates": "YYYY.MM.DD — MM.DD",
+  "hotel": {
+    "name": "住宿名稱",
+    "korean": "숙소 이름",
+    "address": "完整地址",
+    "mapQuery": "韓文住宿名稱或地址"
+  },
   "days": [
     {
       "id": 1,
