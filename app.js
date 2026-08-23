@@ -354,7 +354,7 @@ function selectCulinaryFilter(filter) {
 function shoppingPanel(category, active) {
   return `<div class="shopping-panel ${active ? "is-active" : ""}" data-panel="${category.id}" ${active ? "" : "hidden"}>
     <div class="shopping-panel__header"><div><strong>${category.name}</strong><span>${category.note}</span></div><a href="${category.source}" target="_blank" rel="noreferrer">分類參考來源 ↗</a></div>
-    <div class="shopping-items">${category.items.map((item, index) => `<label class="shopping-check"><input type="checkbox" value="${category.id}:${index}"><span class="checkmark">✓</span><span class="shopping-check__copy"><b>${item.name}</b><small>${item.detail}</small></span><em>${item.priority}</em></label>`).join("")}</div>
+    <div class="shopping-items">${category.items.map((item, index) => `<div class="shopping-check ${item.image ? "has-image" : ""}">${item.image ? `<a class="shopping-image" href="${item.image}" target="_blank" rel="noreferrer" aria-label="放大查看 ${item.name}"><img src="${item.image}" alt="${item.name} 商品參考圖" loading="lazy" decoding="async"></a>` : ""}<label class="shopping-check__label"><input type="checkbox" value="${category.id}:${index}"><span class="checkmark">✓</span><span class="shopping-check__copy"><b>${item.name}</b><small>${item.detail}</small></span><em>${item.priority}</em></label></div>`).join("")}</div>
   </div>`;
 }
 
