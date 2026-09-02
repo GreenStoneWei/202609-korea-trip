@@ -825,7 +825,7 @@ export const days = [
       { time: "05:20", title: "桃園機場集合報到", subtitle: "第二航廈 · 長榮航空櫃台", type: "transport", meta: "請自行前往航空公司櫃台集合。", status: "旅行社手冊" },
       { time: "07:30", title: "桃園出發", subtitle: "長榮航空 BR170", type: "flight", meta: "桃園 T2 → 仁川 · 約 3 小時 30 分", confirmed: true },
       { time: "11:00", title: "抵達仁川國際機場", subtitle: "入境、領取行李後集合", type: "place", place: "仁川國際機場", confirmed: true },
-      { time: "12:30", title: "原訂午餐 · 石鍋拌飯＋小火鍋", subtitle: "旅行社安排", type: "food", meta: "與 13:00 前抵達場館的通知幾乎沒有緩衝，需確認是否提前、改餐盒或調整安排。", estimate: true },
+      { time: "12:30", title: "原訂午餐 · 石鍋拌飯＋小火鍋", subtitle: "旅行社安排", type: "food", meta: "與 13:00 前抵達場館的通知幾乎沒有緩衝，建議與教練和旅行社確認細節。", estimate: true },
       { time: "13:00 前", title: "抵達比賽場地", subtitle: "水原農業生命科學高中", type: "place", meta: "13 Gwanggyosan-ro, Jangan-gu, Suwon-si, Gyeonggi-do", mapQuery: "수원농생명과학고등학교 광교산로 13", status: "比賽通知" },
       { time: "13:00–17:00", title: "全體練習", subtitle: "2026 韓國京畿道國際體操比賽", type: "activity", meta: "依比賽通知準時到場；實際器材輪轉與結束集合以現場指示為準。", status: "比賽通知" },
       { time: "晚間", title: "晚餐 · 韓式烤肉", subtitle: "練習後前往，旅行社安排", type: "food" },
