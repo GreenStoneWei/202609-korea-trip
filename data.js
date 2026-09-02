@@ -1000,11 +1000,8 @@ export const travelHandbook = {
   contacts: [
     {
       label: "台北緊急聯絡",
-      name: "蔡鴻丞 先生",
-      phones: [
-        { display: "0918-051-888", href: "tel:+886918051888" },
-        { display: "(02) 2515-1399", href: "tel:+886225151399" },
-      ],
+      name: "蔡先生",
+      note: "聯絡方式見 LINE 群組",
     },
     {
       label: "大瑞國際旅行社",
