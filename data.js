@@ -978,12 +978,6 @@ export const travelHandbook = {
       name: "免付費服務電話",
       phones: [{ display: "0800-005-055", href: "tel:0800005055" }],
     },
-    {
-      label: "教練／比賽主辦",
-      name: "聯絡方式尚待補充",
-      note: "目前提供的旅行社手冊與專案資料沒有電話；取得後再補入此處。",
-      pending: true,
-    },
   ],
   sections: [
     {

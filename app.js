@@ -350,7 +350,7 @@ function renderExtras() {
           <summary><span class="handbook-step">${section.step}</span><span><small>${section.summary}</small><strong>${section.title}</strong></span></summary>
           <ul>${section.items.map(item => `<li>${item}</li>`).join("")}</ul>
         </details>`).join("")}</div>
-      <p class="research-note">為保護隱私，本頁未收錄旅行社 PDF 的旅客姓名與分房表。教練／比賽主辦聯絡方式目前尚未出現在已提供資料中。</p>
+      <p class="research-note">為保護隱私，本頁未收錄旅行社 PDF 的旅客姓名與分房表。</p>
     </section>
     <section class="extra-section food-guide" id="suwon-food">
       ${extrasHeading("SUWON FOOD MAP", "水原美食地圖", "6 個經典選擇 · 出發前再確認營業時間")}
