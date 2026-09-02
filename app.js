@@ -57,7 +57,7 @@ function renderShell() {
     </section>
     <div id="extras" class="extras"></div>
     <div id="solo-access-root"></div>
-    <footer><span>韓國五日 · 旅行手帖</span><span>資料整理自旅行社 PDF、官方旅遊資訊與旅伴心得 · 更新 2026.09.02</span></footer>`;
+    <footer><span>韓國五日 · 旅行手帖</span><span>資料整理自旅行社 PDF、官方旅遊資訊與旅伴心得 · 更新 2026.09.02</span><p>本網站為旅客跟團期間的個人整理與使用；內容不代表旅行社發言，網站製作、維護及內容均與旅行社無關。</p></footer>`;
 
   renderExtras();
   document.querySelectorAll(".day-tab").forEach(button => button.addEventListener("click", () => selectDay(Number(button.dataset.day))));
@@ -65,7 +65,7 @@ function renderShell() {
   selectFeature(activeFeature, false);
   selectDay(activeDay, false);
   initializeSoloAccess(document.querySelector("#solo-access-root"));
-  window.requestAnimationFrame(() => applyMobileFontFloor(app));
+  applyMobileFontFloor(app);
   mobileFontObserver?.disconnect();
   mobileFontObserver = new MutationObserver(mutations => {
     const addedElements = mutations.flatMap(mutation => [...mutation.addedNodes]).filter(node => node.nodeType === Node.ELEMENT_NODE);
@@ -339,6 +339,25 @@ function renderExtras() {
     <section class="extra-section travel-handbook" id="travel-handbook">
       ${extrasHeading("TRAVEL HANDBOOK", "旅遊須知與聯絡", "旅行社備註、緊急聯絡、行李與出入境提醒集中在這裡")}
       <div class="handbook-alert"><b>一個地方看齊全</b><p>${travelHandbook.sourceNote}。金額、航空與海關規定可能變動，現場仍以教練、旅行社、航空公司及主管機關最新通知為準。</p></div>
+      <p class="personal-use-notice"><strong>非旅行社官方網站</strong>本網站為旅客跟團期間的個人整理與使用；內容不代表旅行社發言，網站製作、維護及內容均與旅行社無關。</p>
+      <div class="handbook-essentials">
+        <article class="adapter-card">
+          <img src="${travelHandbook.adapter.image}" alt="${travelHandbook.adapter.alt}" loading="eager" decoding="async" width="1200" height="800">
+          <div><span>插座準備</span><h3>${travelHandbook.adapter.title}</h3><strong>${travelHandbook.adapter.spec}</strong><p>${travelHandbook.adapter.note}</p></div>
+        </article>
+        <section class="weather-card">
+          <div class="weather-card__head"><div><span>出發前天氣趨勢</span><h3>天氣預報與穿搭</h3></div><time>更新 ${travelHandbook.weather.updated}</time></div>
+          <p class="weather-note">${travelHandbook.weather.note}</p>
+          <div class="weather-days">${travelHandbook.weather.days.map(day => `
+            <article><div><strong>${day.date}</strong><span>${day.place}</span></div><b>${day.range}</b><p>${day.condition}</p><small>${day.wear}</small></article>`).join("")}</div>
+          <div class="clothing-list"><strong>衣著準備</strong><ul>${travelHandbook.weather.clothing.map(item => `<li>${item}</li>`).join("")}</ul></div>
+          <div class="weather-sources">${travelHandbook.weather.sources.map(source => `<a href="${source.href}" target="_blank" rel="noreferrer">${source.label} ↗</a>`).join("")}</div>
+        </section>
+      </div>
+      <aside class="power-bank-alert">
+        <div class="power-bank-alert__icon" aria-hidden="true">⚠</div>
+        <div><span>${travelHandbook.powerBank.updated}</span><h3>${travelHandbook.powerBank.title}</h3><ul>${travelHandbook.powerBank.items.map(item => `<li>${item}</li>`).join("")}</ul><a href="${travelHandbook.powerBank.source}" target="_blank" rel="noreferrer">查看長榮航空最新限制 ↗</a></div>
+      </aside>
       <div class="contact-grid">${travelHandbook.contacts.map(contact => `
         <article class="contact-card ${contact.pending ? "is-pending" : ""}">
           <span>${contact.label}</span><h3>${contact.name}</h3>
@@ -439,8 +458,9 @@ function eventCard(event, index, isLast) {
 
 function recommendationCard(item) {
   return `<div class="food-card">
-    <div class="food-card__top"><span>${item.tag}</span><a href="${item.source}" target="_blank" rel="noreferrer">資料來源 ↗</a></div>
+    <div class="food-card__top"><span>${item.tag}</span><div><a href="${item.naverUrl || mapLink(item.query)}" target="_blank" rel="noreferrer">Naver Map ↗</a><a href="${item.source}" target="_blank" rel="noreferrer">評價依據 ↗</a></div></div>
     <strong>${item.name}</strong><em>${item.dish}</em><p>${item.why}</p>
+    ${item.reviewNote ? `<b class="food-card__review">${item.reviewNote}</b>` : ""}
     ${item.address ? `<small>${item.address}</small>` : ""}
   </div>`;
 }

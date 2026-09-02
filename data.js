@@ -842,10 +842,10 @@ export const days = [
       { time: "09:00 前", title: "抵達比賽場地", subtitle: "水原農業生命科學高中", type: "place", meta: "專車出發與上車時間仍需由旅行社公布。", mapQuery: "수원농생명과학고등학교 광교산로 13", status: "比賽通知" },
       { time: "09:00–09:50", title: "賽前練習", subtitle: "全體參賽者", type: "activity", status: "比賽通知" },
       { time: "11:00", title: "開幕式＆團體表演賽", subtitle: "第 1 個出場：童力／第 6 個出場：童力 36+", type: "activity", status: "比賽通知" },
-      { time: "中午空檔", title: "午餐自理", subtitle: "首選：保榮餃子（仁溪店／鄰近分店）", type: "recommendation", recommendationId: "boyeong", meta: "以現場檢錄與 Level 2 開賽時間為優先；離場前先確認往返時間。" },
+      { time: "中午空檔", title: "午餐自理", subtitle: "場館附近首選：保榮餃子北門本店", type: "recommendation", recommendationId: "boyeong", meta: "從新場館往北門商圈較順；以現場檢錄與 Level 2 開賽時間為優先，離場前先確認往返時間。" },
       { time: "14:30 起", title: "Level 2 比賽", subtitle: "實際檢錄與出場順序以現場公告為準", type: "activity", status: "比賽通知" },
       { time: "16:10 起", title: "Level 3 比賽", subtitle: "實際檢錄與出場順序以現場公告為準", type: "activity", status: "比賽通知" },
-      { time: "晚餐", title: "晚餐自理", subtitle: "首選：佳甫亭水原排骨", type: "recommendation", recommendationId: "kabojung" },
+      { time: "晚餐", title: "晚餐自理", subtitle: "新場館附近：名聲豬排骨", type: "recommendation", recommendationId: "myeongseong" },
       { time: "賽後", title: "專車返回飯店", subtitle: "HOMES Stay Suwon", type: "transport" },
     ],
   },
@@ -861,7 +861,7 @@ export const days = [
       { time: "10:00 起", title: "Level 4 比賽", subtitle: "實際檢錄與出場順序以現場公告為準", type: "activity", status: "比賽通知" },
       { time: "12:30 起", title: "Level 5–8 比賽", subtitle: "實際檢錄與出場順序以現場公告為準", type: "activity", status: "比賽通知" },
       { time: "14:00 起", title: "KGA（FIG）比賽", subtitle: "成人組列在此組", type: "activity", status: "比賽通知" },
-      { time: "賽程空檔", title: "午餐自理", subtitle: "備選：柳池會館 · 水原醒酒湯", type: "recommendation", recommendationId: "yuchi", meta: "當日賽程密集，只有確認不影響檢錄與出場時才離場用餐；優先準備場館附近或可攜餐點。" },
+      { time: "賽程空檔", title: "午餐自理", subtitle: "場館附近備選：北門柳池會館", type: "recommendation", recommendationId: "bukmun_yuchi", meta: "當日賽程密集，只有確認不影響檢錄與出場時才離場；這間與仁溪洞同名名店不是同一家，優先仍是準備可攜餐點。" },
       { time: "晚餐", title: "晚餐自理", subtitle: "首選：真味炸雞 · 水原炸雞街", type: "recommendation", recommendationId: "jinmi" },
       { time: "賽後", title: "專車返回飯店", subtitle: "HOMES Stay Suwon", type: "transport" },
     ],
@@ -912,9 +912,22 @@ export const days = [
 
 export const recommendations = {
   boyeong: {
-    name: "保榮餃子 · 보영만두", tag: "快速午餐", dish: "手工餃子＋辣拌麵",
-    why: "上菜快、適合比賽空檔；飯店周邊可先用 Naver Map 確認當天最近分店。",
-    query: "보영만두 인계점", source: "https://www.tripadvisor.com/RestaurantsNear-g424960-d13222654-HOMES_Stay_Suwon-Suwon_Gyeonggi_do.html",
+    name: "保榮餃子 北門本店 · 보영만두 북문본점", tag: "場館步行圈／快速午餐", dish: "手工餃子＋辣拌麵",
+    why: "重新以水原農業生命科學高中為中心檢查後，北門本店約在場館西側 0.8 公里；上菜快、評論量大，最適合 9/12 的短午餐空檔。",
+    address: "경기도 수원시 장안구 팔달로 271", query: "보영만두 북문본점", naverUrl: "https://naver.me/FUhsz976",
+    reviewNote: "Naver／在地評論量大 · DiningCode 4.2（60 則評分）", source: "https://www.diningcode.com/list.dc?query=%EC%88%98%EC%9B%90%EB%B6%81%EB%AC%B8",
+  },
+  myeongseong: {
+    name: "名聲豬排骨 · 명성돼지갈비", tag: "場館步行圈／賽後晚餐", dish: "湯汁豬排骨／醬燒豬排骨",
+    why: "位於北門商圈，與新場館約 1 公里；在地榜單評價穩定、多人用餐合適，較原本跨到飯店區的排骨店更符合賽後動線。",
+    address: "경기도 수원시 장안구 팔달로271번길 16-16", query: "명성돼지갈비 수원", naverUrl: "https://naver.me/5BSj4Hbq",
+    reviewNote: "熱門在地老店 · DiningCode 4.3（30 則評分）", source: "https://www.diningcode.com/list.dc?query=%EC%88%98%EC%9B%90%EB%B6%81%EB%AC%B8",
+  },
+  bukmun_yuchi: {
+    name: "北門柳池會館 · 북문유치회관", tag: "場館附近／一人一碗", dish: "清湯醒酒湯＋白飯",
+    why: "場館北門商圈的快速熱食備案，桌位較多且一人一碗容易控制時間；網友近期仍有持續食記，但口味與仁溪洞柳池會館本店不同。",
+    address: "경기도 수원시 장안구 수성로340번길 59", query: "북문유치회관", reviewNote: "近期仍有用餐評論 · 過往 Naver 評分 4.28／5",
+    source: "https://www.siksinhot.com/P/253135",
   },
   kabojung: {
     name: "佳甫亭 · 가보정", tag: "水原名物", dish: "生牛排骨／調味牛排骨",
@@ -928,8 +941,9 @@ export const recommendations = {
   },
   jinmi: {
     name: "真味炸雞 · 진미통닭", tag: "賽後聚餐", dish: "原味＋甜辣半半炸雞",
-    why: "位於水原炸雞街；韓國觀光公社將真味、龍城列為街區代表店家。",
+    why: "重新核對新場館後仍保留：從場館往飯店方向會經過水原炸雞街，適合 9/13 比賽全部結束後多人分享；不適合賽程中的短空檔。",
     address: "경기도 수원시 팔달구 정조로800번길 21", query: "진미통닭", source: "https://english.visitkorea.or.kr/svc/contents/contentsView.do?menuSn=351&vcontsId=176166",
+    reviewNote: "韓國觀光公社列為炸雞街代表店家",
   },
 };
 
@@ -942,6 +956,47 @@ export const competitionVideos = [
 
 export const travelHandbook = {
   sourceNote: "旅行社 2026 年新版手冊摘要",
+  adapter: {
+    image: "assets/travel/korea-type-c-adapter.webp",
+    alt: "韓國可用的雙圓腳 Type C／F 旅行轉接頭",
+    title: "韓國雙圓腳轉接頭",
+    spec: "220V · Type C／F",
+    note: "請帶雙圓腳轉接頭；它只轉換插頭形狀，不會把 220V 降成 110V。吹風機等高功率電器仍要先確認支援 220V。",
+  },
+  weather: {
+    updated: "2026.09.02",
+    note: "首爾／水原中長期預報的目前趨勢；不同預報仍有落差，出發前 2–3 天請再確認。",
+    days: [
+      { date: "09/11", place: "水原", range: "18–30°C", condition: "多雲到晴、白天偏暖", wear: "短袖＋薄外套" },
+      { date: "09/12", place: "水原", range: "18–29°C", condition: "多雲，可能有雨", wear: "透氣上衣＋摺傘" },
+      { date: "09/13", place: "水原", range: "19–29°C", condition: "陣雨機率較高", wear: "輕防水外層＋長褲" },
+      { date: "09/14", place: "首爾", range: "20–31°C", condition: "偏暖，可能短暫雨", wear: "短袖＋防曬／雨具" },
+      { date: "09/15", place: "仁川", range: "20–28°C", condition: "多雲、可能短暫雨", wear: "薄外套方便進機艙" },
+    ],
+    clothing: [
+      "以短袖、透氣運動服為主，採洋蔥式穿法。",
+      "每天帶輕薄防風／防潑水外套，早晚、車內冷氣和雨天都用得到。",
+      "準備摺疊傘、防曬用品、帽子，以及止滑好走、最好稍防水的鞋。",
+      "比賽服與備用衣物分袋防水；怕冷者再加一件薄長袖，不需厚重冬衣。",
+    ],
+    sources: [
+      { label: "AccuWeather 月預報", href: "https://www.accuweather.com/en/kr/seoul-city-hall/100043_poi/september-weather/100043_poi?year=2026" },
+      { label: "首爾 15 日趨勢", href: "https://www.exactskyweather.com/weather/seoul-1835848/15-days" },
+      { label: "水原 9 月趨勢", href: "https://www.easeweather.com/asia/south-korea/gyeonggi-do/suwon-si/september" },
+    ],
+  },
+  powerBank: {
+    title: "行動電源只能隨身帶，長榮每人最多 2 個",
+    updated: "長榮航空 2026.03.31 起規定",
+    items: [
+      "不可託運；請放隨身行李，並妥善放在前方座椅下，不放頭頂行李櫃。",
+      "每人最多 2 個；100Wh 以下通常可攜，100–160Wh 須事先取得航空公司同意，超過 160Wh 禁止攜帶。",
+      "外殼必須清楚標示 Wh／容量規格；標示模糊或無法辨識可能被拒絕攜帶。",
+      "充電端子用絕緣膠帶蓋住，或每個分別放進保護袋，避免與金屬接觸造成短路。",
+      "飛行全程禁止使用行動電源，也禁止替行動電源充電。20,000mAh、3.7V 約為 74Wh。",
+    ],
+    source: "https://www.evaair.com/en-us/fly-prepare/baggage/additional-baggage-information/restrictions/",
+  },
   contacts: [
     {
       label: "台北緊急聯絡",
@@ -998,7 +1053,7 @@ export const travelHandbook = {
       items: [
         "託運行李 1 件、不超過 23 公斤；手提行李 1 件、不超過 7 公斤。",
         "液體、膠狀與噴霧用品須以每瓶 100 ml 以下容器裝妥，集中放入總容量不超過 1 公升的透明夾鏈袋；每人 1 袋。",
-        "手機、相機、電腦等備用鋰電池與行動電源只能放手提行李，端點需防短路。",
+        "手機、相機、電腦等備用鋰電池與行動電源只能放手提行李，端點需防短路；長榮自 2026/3/31 起每人最多攜帶 2 個行動電源。",
         "水果刀、指甲剪，以及收合後超過 25 公分的腳架／自拍棒等，應放託運行李。",
         "處方藥請準備姓名相符的身分或醫療證明；旅途中必需的特殊液體應在安檢時主動申報。",
       ],
