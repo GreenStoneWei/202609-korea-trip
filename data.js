@@ -7,6 +7,8 @@ export const tripMeta = {
   dates: "2026.09.11 — 09.15",
   hotel: "HOMES Stay Suwon",
   hotelAddress: "경기도 수원시 팔달구 인계로 116",
+  hotelPhone: "+82 31-233-0338",
+  meeting: "09/11 05:20 · 桃園機場第二航廈長榮航空櫃台",
   flightOut: "BR170 · TPE 07:30 → ICN 11:00",
   flightBack: "BR159 · ICN 19:45 → TPE 21:25",
 };
@@ -138,6 +140,7 @@ export const travelPrep = [
       "台灣旅客的自動通關適用資格與現場服務時間可能變動，抵達後以移民署服務台公告為準。",
       "購物時先問是否能即時退稅；否則收好 Tax Refund 憑證、護照與商品，依憑證指示到機場辦理。",
       "BR159 由 ICN T1 出發；若需一般退稅，預留比只辦登機更多的機場時間。",
+      "旅行社手冊載明：託運行李 1 件、不超過 23 公斤；手提行李 1 件、不超過 7 公斤。最終仍以長榮航空當日票規為準。",
     ],
     source: "https://english.visitkorea.or.kr/svc/contents/contentsView.do?menuSn=929&vcontsId=248765", sourceLabel: "VISITKOREA 退稅指南",
   },
@@ -791,7 +794,13 @@ export const threadsResearch = [
   },
 ];
 
-const hotel = { name: "HOMES Stay Suwon", query: "홈즈스테이 수원", lat: 37.2636, lng: 127.0307 };
+const hotel = {
+  name: "HOMES Stay Suwon",
+  query: "홈즈스테이 수원",
+  note: "116 Ingye-ro, Paldal-gu · +82 31-233-0338",
+  lat: 37.2636,
+  lng: 127.0307,
+};
 const venue = {
   name: "水原農業生命科學高中",
   query: "수원농생명과학고등학교 광교산로 13",
@@ -813,6 +822,7 @@ export const days = [
       hotel,
     ],
     events: [
+      { time: "05:20", title: "桃園機場集合報到", subtitle: "第二航廈 · 長榮航空櫃台", type: "transport", meta: "請自行前往航空公司櫃台集合。", status: "旅行社手冊" },
       { time: "07:30", title: "桃園出發", subtitle: "長榮航空 BR170", type: "flight", meta: "桃園 T2 → 仁川 · 約 3 小時 30 分", confirmed: true },
       { time: "11:00", title: "抵達仁川國際機場", subtitle: "入境、領取行李後集合", type: "place", place: "仁川國際機場", confirmed: true },
       { time: "12:30", title: "原訂午餐 · 石鍋拌飯＋小火鍋", subtitle: "旅行社安排", type: "food", meta: "與 13:00 前抵達場館的通知幾乎沒有緩衝，需確認是否提前、改餐盒或調整安排。", estimate: true },
@@ -870,10 +880,10 @@ export const days = [
     events: [
       { time: "早上", title: "飯店早餐後出發", subtitle: "水原 → 首爾 · 團體專車", type: "transport", meta: "車程約 1.5–2 小時，依交通狀況" },
       { time: "上午", title: "國立民俗博物館＋7080 懷舊街", subtitle: "從生活與風俗認識韓國歷史", type: "place", mapQuery: "국립민속박물관" },
-      { time: "中午", title: "通仁市場", subtitle: "午餐為旅行社安排韓式風味餐", type: "food", meta: "可逛銅錢便當 Cafe 與傳統小菜攤", mapQuery: "통인시장" },
+      { time: "中午", title: "通仁市場 · 百年蔘雞湯", subtitle: "午餐由旅行社安排", type: "food", meta: "市場可逛銅錢便當 Cafe 與傳統小菜攤", mapQuery: "통인시장" },
       { time: "午後", title: "恩平韓屋村", subtitle: "以北漢山為背景的現代韓屋聚落", type: "place", mapQuery: "은평한옥마을" },
-      { time: "午後", title: "北漢山全景庭園咖啡廳", subtitle: "景觀咖啡休息", type: "place", meta: "店名尚待旅行社確認", mapQuery: "은평한옥마을 북한산 뷰 카페" },
-      { time: "晚間", title: "韓式風味晚餐 · 返回飯店", subtitle: "旅行社安排 · 團體專車", type: "food" },
+      { time: "午後", title: "北漢山全景庭園咖啡廳", subtitle: "贈每人一杯飲料", type: "place", meta: "店名尚待旅行社確認", mapQuery: "은평한옥마을 북한산 뷰 카페" },
+      { time: "晚間", title: "晚餐 · 部隊鍋", subtitle: "旅行社安排 · 餐後返回飯店", type: "food" },
     ],
   },
   {

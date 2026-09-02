@@ -67,6 +67,6 @@ https://greenstonewei.github.io/202609-korea-trip/#solo
 
 ## 已知待補資料
 
-原 PDF 沒有提供比賽會場名稱／地址、Day 2–3 賽程、每日集合時間，以及 Day 4 景觀咖啡廳店名。網站刻意標示為「待確認」，取得資料後只需更新 [`data.js`](data.js)。
+旅行社新版手冊已提供出發日機場集合時間；目前尚未提供 Day 2–3 每日上車時間，以及 Day 4 景觀咖啡廳店名。網站刻意標示為「待確認」，取得資料後只需更新 [`data.js`](data.js)。
 
 需求、研究與驗收計畫請見 [`docs/PLAN.md`](docs/PLAN.md)。

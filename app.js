@@ -55,7 +55,7 @@ function renderShell() {
     </section>
     <div id="extras" class="extras"></div>
     <div id="solo-access-root"></div>
-    <footer><span>韓國五日 · 旅行手帖</span><span>資料整理自旅行社 PDF、官方旅遊資訊與旅伴心得 · 更新 2026.08.09</span></footer>`;
+    <footer><span>韓國五日 · 旅行手帖</span><span>資料整理自旅行社 PDF、官方旅遊資訊與旅伴心得 · 更新 2026.09.02</span></footer>`;
 
   renderExtras();
   document.querySelectorAll(".day-tab").forEach(button => button.addEventListener("click", () => selectDay(Number(button.dataset.day))));
