@@ -1,9 +1,9 @@
-import { competitionVideos, culinaryRestaurants, days, feiboSaves, googleSearch, hongdaeSaves, jinzhenguSaves, laotaoSaves, naverSearch, recommendations, seoulAreas, sharedFoodFinds, shoppingCategories, suwonFood, threadsResearch, travelPrep, tripMeta } from "./data.js";
+import { competitionVideos, culinaryRestaurants, days, feiboSaves, googleSearch, hongdaeSaves, jinzhenguSaves, laotaoSaves, naverSearch, recommendations, seoulAreas, sharedFoodFinds, shoppingCategories, suwonFood, threadsResearch, travelHandbook, travelPrep, tripMeta } from "./data.js";
 import { initializeSoloAccess } from "./solo.js";
 
 const app = document.querySelector("#app");
 let activeDay = Number(sessionStorage.getItem("activeDay")) || 1;
-const featureIds = ["trip", "guide", "food", "prep", "competition"];
+const featureIds = ["trip", "competition", "guide", "food", "prep", "handbook"];
 let activeFeature = featureIds.includes(sessionStorage.getItem("activeFeature")) ? sessionStorage.getItem("activeFeature") : "trip";
 const featureMapsStarted = new Set();
 const featureMapInstances = { guide: [], food: [] };
@@ -47,6 +47,7 @@ function renderShell() {
       <button type="button" role="tab" data-feature="guide"><span>03</span>首爾逛街</button>
       <button type="button" role="tab" data-feature="food"><span>04</span>美食收藏</button>
       <button type="button" role="tab" data-feature="prep"><span>05</span>購物準備</button>
+      <button type="button" role="tab" data-feature="handbook"><span>06</span>旅遊須知</button>
     </nav>
     <section class="feature-view trip-view" data-feature-view="trip" role="tabpanel">
       <nav class="day-tabs" aria-label="切換行程日期"><div class="day-tabs__track">
@@ -82,6 +83,7 @@ const featureSections = {
   food: ["culinary-restaurants", "shared-food", "hongdae-saves", "feibo-saves", "laotao-saves", "jinzhengu-saves", "suwon-food"],
   prep: ["travel-prep", "shopping-list"],
   competition: ["competition-videos"],
+  handbook: ["travel-handbook"],
 };
 
 function organizeFeatureViews() {
@@ -327,12 +329,28 @@ function renderExtras() {
       <p class="research-note">依 2026-08-09 官方資訊整理；入境資格、App 支援、機場櫃檯與退稅規則可能變動，請在出發前一週再次確認。</p>
     </section>
     <section class="extra-section videos-section" id="competition-videos">
-      ${extrasHeading("COMPETITION REFERENCES", "比賽影片", "已設定從指定動作時間開始播放")}
+      ${extrasHeading("COMPETITION REFERENCES", "比賽影片", `${competitionVideos.length} 支參考影片 · 有指定時間者會從動作處開始播放`)}
       <div class="video-grid">${competitionVideos.map(video => `
         <article class="video-card accent-${video.accent}">
-          <div class="video-frame"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/${video.videoId}?start=${video.start}&rel=0" title="${video.apparatus} ${video.level} 比賽影片，從 ${video.startLabel} 開始" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
-          <div class="video-card__body"><div><span>${video.level}</span><h3>${video.apparatus}</h3></div><a href="https://www.youtube.com/watch?v=${video.videoId}&t=${video.start}s" target="_blank" rel="noreferrer">從 ${video.startLabel} 開始 ↗</a></div>
+          <div class="video-frame"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/${video.videoId}?start=${video.start}&rel=0" title="${video.apparatus} ${video.level} 比賽影片${video.start ? `，從 ${video.startLabel} 開始` : ""}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+          <div class="video-card__body"><div><span>${video.level}</span><h3>${video.apparatus}</h3></div><a href="https://www.youtube.com/watch?v=${video.videoId}&t=${video.start}s" target="_blank" rel="noreferrer">${video.start ? `從 ${video.startLabel} 開始` : "觀看完整影片"} ↗</a></div>
         </article>`).join("")}</div>
+    </section>
+    <section class="extra-section travel-handbook" id="travel-handbook">
+      ${extrasHeading("TRAVEL HANDBOOK", "旅遊須知與聯絡", "旅行社備註、緊急聯絡、行李與出入境提醒集中在這裡")}
+      <div class="handbook-alert"><b>一個地方看齊全</b><p>${travelHandbook.sourceNote}。金額、航空與海關規定可能變動，現場仍以教練、旅行社、航空公司及主管機關最新通知為準。</p></div>
+      <div class="contact-grid">${travelHandbook.contacts.map(contact => `
+        <article class="contact-card ${contact.pending ? "is-pending" : ""}">
+          <span>${contact.label}</span><h3>${contact.name}</h3>
+          ${contact.phones ? `<div class="contact-phones">${contact.phones.map(phone => phone.href ? `<a href="${phone.href}">${phone.display}</a>` : `<span>${phone.display}</span>`).join("")}</div>` : ""}
+          ${contact.note ? `<p>${contact.note}</p>` : ""}
+        </article>`).join("")}</div>
+      <div class="handbook-grid">${travelHandbook.sections.map((section, index) => `
+        <details class="handbook-card" ${index < 2 ? "open" : ""}>
+          <summary><span class="handbook-step">${section.step}</span><span><small>${section.summary}</small><strong>${section.title}</strong></span></summary>
+          <ul>${section.items.map(item => `<li>${item}</li>`).join("")}</ul>
+        </details>`).join("")}</div>
+      <p class="research-note">為保護隱私，本頁未收錄旅行社 PDF 的旅客姓名與分房表。教練／比賽主辦聯絡方式目前尚未出現在已提供資料中。</p>
     </section>
     <section class="extra-section food-guide" id="suwon-food">
       ${extrasHeading("SUWON FOOD MAP", "水原美食地圖", "6 個經典選擇 · 出發前再確認營業時間")}
