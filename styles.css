@@ -1,6 +1,17 @@
 :root { --paper:#f6f2ea; --ink:#17201d; --muted:#69716c; --line:#d9d7cf; --accent:#ef674f; --green:#1f5a49; --soft:#e9e4d9; --white:#fffdf8; }
 .app-nav{max-width:100vw;overscroll-behavior-inline:contain;scroll-padding-inline:10px;-webkit-overflow-scrolling:touch}.app-nav>button{flex:1 0 96px}
-@media(max-width:759px){.mobile-font-floor{font-size:12px!important}}
+@media(max-width:759px){
+  .mobile-font-floor{font-size:12px!important}
+  body .hero{min-height:228px;padding:calc(18px + env(safe-area-inset-top)) 18px 15px}
+  body .hero::before{width:250px;height:250px;right:-105px;top:18px;box-shadow:0 0 0 22px rgba(255,255,255,.04),0 0 0 44px rgba(255,255,255,.03)}
+  body .hero::after{right:-34px;bottom:56px;font-size:28px}
+  body .hero__content{margin-top:28px}
+  body .hero h1{max-width:245px;font-size:38px}
+  body .hero__content>p:not(.eyebrow){margin-top:7px;font-size:13px}
+  body .hero__stamp{right:2px;top:-4px;width:62px;height:62px}
+  body .hero__facts{margin-top:27px;padding-top:11px}
+  body .hero__topline span:last-child,body .hero__stamp,body .hero__facts span:last-child{display:none}
+}
 .solo-hotel{margin-top:18px;padding:17px 18px;background:var(--white);border:1px solid var(--line);border-radius:18px}.solo-hotel .eyebrow{margin:0 0 4px}.solo-hotel h2{margin:0;font-size:19px}.solo-hotel>div>span{display:block;margin-top:2px;color:var(--muted);font-size:10px}.solo-hotel>p{margin:10px 0 0;color:var(--muted);font-size:10px;line-height:1.6}.solo-hotel .map-links{margin-top:11px}
 * { box-sizing:border-box; }
 html { max-width:100%; overflow-x:clip; scroll-behavior:smooth; }
