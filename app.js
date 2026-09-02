@@ -42,10 +42,10 @@ function renderShell() {
     </header>
     <nav class="app-nav" aria-label="切換主要功能" role="tablist">
       <button type="button" role="tab" data-feature="trip"><span>01</span>團體行程</button>
-      <button type="button" role="tab" data-feature="guide"><span>02</span>首爾逛街</button>
-      <button type="button" role="tab" data-feature="food"><span>03</span>美食收藏</button>
-      <button type="button" role="tab" data-feature="prep"><span>04</span>購物準備</button>
-      <button type="button" role="tab" data-feature="competition"><span>05</span>比賽影片</button>
+      <button type="button" role="tab" data-feature="competition"><span>02</span>比賽影片</button>
+      <button type="button" role="tab" data-feature="guide"><span>03</span>首爾逛街</button>
+      <button type="button" role="tab" data-feature="food"><span>04</span>美食收藏</button>
+      <button type="button" role="tab" data-feature="prep"><span>05</span>購物準備</button>
     </nav>
     <section class="feature-view trip-view" data-feature-view="trip" role="tabpanel">
       <nav class="day-tabs" aria-label="切換行程日期"><div class="day-tabs__track">
