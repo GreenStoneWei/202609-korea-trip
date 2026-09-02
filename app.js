@@ -9,6 +9,7 @@ const featureMapsStarted = new Set();
 const featureMapInstances = { guide: [], food: [] };
 let mapInstance = null;
 let markers = [];
+let mobileFontObserver;
 
 const icons = {
   flight: "✈", place: "⌖", food: "●", activity: "◇", hotel: "⌂", transport: "→", recommendation: "★",
@@ -63,6 +64,13 @@ function renderShell() {
   selectFeature(activeFeature, false);
   selectDay(activeDay, false);
   initializeSoloAccess(document.querySelector("#solo-access-root"));
+  window.requestAnimationFrame(() => applyMobileFontFloor(app));
+  mobileFontObserver?.disconnect();
+  mobileFontObserver = new MutationObserver(mutations => {
+    const addedElements = mutations.flatMap(mutation => [...mutation.addedNodes]).filter(node => node.nodeType === Node.ELEMENT_NODE);
+    window.requestAnimationFrame(() => addedElements.forEach(element => applyMobileFontFloor(element)));
+  });
+  mobileFontObserver.observe(app, { childList: true, subtree: true });
 }
 
 function extrasHeading(kicker, title, note) {
@@ -105,6 +113,23 @@ function initializeFeatureMaps(feature) {
   window.setTimeout(() => featureMapInstances[feature]?.forEach(map => map.relayout?.()), 0);
 }
 
+function scrollItemWithin(container, item, behavior = "smooth") {
+  if (!container || !item) return;
+  const centered = item.offsetLeft - (container.clientWidth - item.offsetWidth) / 2;
+  const left = Math.max(0, Math.min(centered, container.scrollWidth - container.clientWidth));
+  container.scrollTo({ left, behavior });
+}
+
+function applyMobileFontFloor(root = document) {
+  if (!window.matchMedia("(max-width: 759px)").matches) return;
+  const elements = root instanceof Element ? [root, ...root.querySelectorAll("*")] : [...root.querySelectorAll("*")];
+  elements.forEach(element => {
+    if (Number.parseFloat(window.getComputedStyle(element).fontSize) < 12) {
+      element.classList.add("mobile-font-floor");
+    }
+  });
+}
+
 function selectFeature(feature, scroll = true) {
   if (!featureIds.includes(feature)) feature = "trip";
   activeFeature = feature;
@@ -114,6 +139,7 @@ function selectFeature(feature, scroll = true) {
     button.classList.toggle("is-active", selected);
     button.setAttribute("aria-selected", String(selected));
   });
+  scrollItemWithin(document.querySelector(".app-nav"), document.querySelector(`.app-nav [data-feature="${feature}"]`), scroll ? "smooth" : "auto");
   document.querySelectorAll("[data-feature-view]").forEach(panel => {
     const selected = panel.dataset.featureView === feature;
     panel.hidden = !selected;
@@ -366,12 +392,14 @@ function selectShoppingCategory(id) {
 function selectDay(id, scroll = true) {
   activeDay = id;
   sessionStorage.setItem("activeDay", String(id));
+  let activeButton;
   document.querySelectorAll(".day-tab").forEach(button => {
     const selected = Number(button.dataset.day) === id;
     button.classList.toggle("is-active", selected);
     button.setAttribute("aria-selected", String(selected));
-    if (selected) button.scrollIntoView({ behavior: scroll ? "smooth" : "auto", inline: "center", block: "nearest" });
+    if (selected) activeButton = button;
   });
+  scrollItemWithin(document.querySelector(".day-tabs__track"), activeButton, scroll ? "smooth" : "auto");
   renderDay(days.find(day => day.id === id));
   if (scroll && window.scrollY > 360) document.querySelector(".day-tabs").scrollIntoView({ behavior: "smooth" });
 }
@@ -411,7 +439,7 @@ function renderDay(day) {
       <div class="section-heading"><div><p class="eyebrow">TODAY'S ROUTE</p><h2 id="map-title">今日路線</h2></div><span>${day.places.filter(p => p.lat).length} 個地點</span></div>
       <div id="map" class="map-canvas"><div class="map-loading">地圖載入中…</div></div>
       <div class="transport-summary"><span>→</span><div><strong>今日交通</strong><p>${day.transport}</p></div></div>
-      <div class="place-strip">${day.places.map((place, index) => `<div class="place-pill ${!place.query ? "is-pending" : ""}"><b>${index + 1}</b><span>${place.name}<small>${place.note || (place.query ? "選擇地圖開啟" : "位置待確認")}</small>${place.query ? `<span class="place-pill__links"><a href="${mapLink(place.query)}" target="_blank" rel="noreferrer">Naver ↗</a><a href="${googleMapLink(place.query)}" target="_blank" rel="noreferrer">Google ↗</a>${place.officialUrl ? `<a href="${place.officialUrl}" target="_blank" rel="noreferrer">場館官網 ↗</a>` : ""}</span>` : ""}</span></div>`).join("")}</div>
+      <div class="place-strip">${day.places.map((place, index) => `<div class="place-pill ${!place.query ? "is-pending" : ""}"><b>${index + 1}</b><span class="place-pill__copy"><span class="place-pill__name">${place.name}</span><small>${place.note || (place.query ? "選擇地圖開啟" : "位置待確認")}</small>${place.query ? `<span class="place-pill__links"><a href="${mapLink(place.query)}" target="_blank" rel="noreferrer">Naver ↗</a><a href="${googleMapLink(place.query)}" target="_blank" rel="noreferrer">Google ↗</a>${place.officialUrl ? `<a href="${place.officialUrl}" target="_blank" rel="noreferrer">場館官網 ↗</a>` : ""}</span>` : ""}</span></div>`).join("")}</div>
       <p class="map-disclaimer">虛線僅表示拜訪順序，不代表實際道路導航。</p>
     </section>
     <section class="schedule" aria-labelledby="schedule-title">
@@ -419,6 +447,8 @@ function renderDay(day) {
       <div class="timeline">${day.events.map((event, index) => eventCard(event, index, index === day.events.length - 1)).join("")}</div>
     </section>
     <aside class="notice"><span>!</span><div><strong>行程資料提醒</strong><p>${day.id <= 3 ? "場館與賽程已依比賽通知更新；專車集合、檢錄及臨時異動仍以主辦單位與旅行社最新通知為準。" : "交通時間僅為規劃參考，未公布的集合與店家資訊不自行猜測，請以導遊與當日路況為準。"}</p></div></aside>`;
+  content.querySelector(".place-strip").scrollLeft = 0;
+  applyMobileFontFloor(content);
   if (activeFeature === "trip") initializeMap(day);
 }
 
