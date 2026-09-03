@@ -813,9 +813,9 @@ const venue = {
 export const days = [
   {
     id: 1, date: "09/11", weekday: "五", title: "抵達韓國 · 比賽練習", area: "仁川 → 水原",
-    transport: "團體專車 · 機場 → 午餐 → 會場 → 晚餐 → 飯店",
+    transport: "團體專車 · 機場 → 賽場（練習者下車）→ 飯店（其他團員）→ 約 17:00 接人 → 晚餐",
     weatherNote: "出發前 7 天再確認天氣",
-    summary: ["BR170", "團體專車", "三餐已含"],
+    summary: ["BR170", "機場直達賽場", "午餐簡便餐"],
     places: [
       { name: "仁川國際機場", query: "인천국제공항", lat: 37.4602, lng: 126.4407 },
       venue,
@@ -825,11 +825,13 @@ export const days = [
       { time: "05:20", title: "桃園機場集合報到", subtitle: "第二航廈 · 長榮航空櫃台", type: "transport", meta: "請自行前往航空公司櫃台集合。", status: "旅行社手冊" },
       { time: "07:30", title: "桃園出發", subtitle: "長榮航空 BR170", type: "flight", meta: "桃園 T2 → 仁川 · 約 3 小時 30 分", confirmed: true },
       { time: "11:00", title: "抵達仁川國際機場", subtitle: "入境、領取行李後集合", type: "place", place: "仁川國際機場", confirmed: true },
-      { time: "12:30", title: "原訂午餐 · 石鍋拌飯＋小火鍋", subtitle: "旅行社安排", type: "food", meta: "與 13:00 前抵達場館的通知幾乎沒有緩衝，建議與教練和旅行社確認細節。", estimate: true },
-      { time: "13:00 前", title: "抵達比賽場地", subtitle: "水原農業生命科學高中", type: "place", meta: "13 Gwanggyosan-ro, Jangan-gu, Suwon-si, Gyeonggi-do", mapQuery: "수원농생명과학고등학교 광교산로 13", status: "比賽通知" },
-      { time: "13:00–17:00", title: "全體練習", subtitle: "2026 韓國京畿道國際體操比賽", type: "activity", meta: "依比賽通知準時到場；實際器材輪轉與結束集合以現場指示為準。", status: "比賽通知" },
-      { time: "晚間", title: "晚餐 · 韓式烤肉", subtitle: "練習後前往，旅行社安排", type: "food" },
-      { time: "夜間", title: "入住 HOMES Stay Suwon", subtitle: "水原市八達區仁溪路 116", type: "hotel", mapQuery: "홈즈스테이 수원" },
+      { time: "移動途中", title: "午餐 · 飯糰或三明治", subtitle: "在專車上方便食用的簡便餐", type: "food", meta: "機場出發後不另外停靠餐廳，以免影響 13:00 前抵達賽場。", status: "教練／旅行社確認" },
+      { time: "13:00 前", title: "抵達賽場・團員分流", subtitle: "教練與需練習選手下車；其他團員原車前往飯店", type: "place", meta: "水原農業生命科學高中 · 13 Gwanggyosan-ro, Jangan-gu, Suwon-si", mapQuery: "수원농생명과학고등학교 광교산로 13", status: "教練／旅行社確認" },
+      { time: "13:00–17:00", title: "教練與選手練習", subtitle: "2026 韓國京畿道國際體操比賽", type: "activity", meta: "需留場者依現場指示練習；不需留場的團員搭原車前往 HOMES Stay Suwon。", status: "教練／旅行社確認" },
+      { time: "午後", title: "其他團員前往飯店", subtitle: "HOMES Stay Suwon", type: "hotel", meta: "未留在賽場的人員由同一輛專車直接送往飯店。", mapQuery: "홈즈스테이 수원", status: "教練／旅行社確認" },
+      { time: "約 17:00", title: "專車接齊全團", subtitle: "先接飯店團員，再回賽場接練習人員", type: "transport", meta: "全團會合後一同前往晚餐。", status: "教練／旅行社確認" },
+      { time: "晚間", title: "晚餐 · 韓式烤肉", subtitle: "全團一起用餐，旅行社安排", type: "food" },
+      { time: "夜間", title: "全團返回 HOMES Stay Suwon", subtitle: "水原市八達區仁溪路 116", type: "hotel", mapQuery: "홈즈스테이 수원" },
     ],
   },
   {
